@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Text2 Editor - Pro UI Responsive</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --primary: #007bff;
+      --primary-light: #e3f0ff;
+      --primary-dark: #0056b3;
+      --bg: #f9fafb;
+      --editor-bg: #fff;
+      --toolbar-bg: #f5f6fa;
+      --border: #e5e7eb;
+      --text: #262626;
+      --text-light: #6b7280;
+      --icon: #555;
+      --icon-hover: var(--primary);
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    [data-theme="dark"] {
+      --primary: #61dafb;
+      --primary-light: #1e1e2f;
+      --primary-dark: #147eae;
+      --bg: #15171a;
+      --editor-bg: #20232a;
+      --toolbar-bg: #181b22;
+      --border: #27282b;
+      --text: #eeeeee;
+      --text-light: #aaa;
+      --icon: #bbb;
+      --icon-hover: var(--primary);
+      --shadow: 0 2px 16px rgba(0,0,0,0.24);
+    }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 6px;
+      padding: 10px 8px;
+      background: var(--toolbar-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: var(--shadow);
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-light) var(--toolbar-bg);
+    }
+    .toolbar::-webkit-scrollbar {
+      height: 7px;
+    }
+    .toolbar::-webkit-scrollbar-thumb {
+      background: var(--primary-light);
+      border-radius: 4px;
+    }
+    .toolbar button, .toolbar select, .toolbar input[type="color"] {
+      border: none;
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--text);
+      font-size: 15px;
+      padding: 7px 11px;
+      margin: 0;
+      cursor: pointer;
+      transition: background .2s, color .2s, box-shadow .2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      min-width: 36px;
+      min-height: 36px;
+    }
+    .toolbar button:hover, .toolbar select:focus, .toolbar input[type="color"]:focus {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      outline: none;
+    }
+    .toolbar button i {
+      color: var(--icon);
+      font-size: 17px;
+      transition: color .2s;
+    }
+    .toolbar button:hover i {
+      color: var(--icon-hover);
+    }
+    .toolbar select {
+      background: #fff;
+      border: 1px solid var(--border);
+      min-width: 90px;
+      padding-right: 18px;
+    }
+    .toolbar input[type="color"] {
+      padding: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: none;
+      box-shadow: none;
+      min-width: 36px;
+    }
+    .toolbar input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    .toolbar input[type="color"]::-webkit-color-swatch {
+      border-radius: 50%;
+      border: none;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: var(--toolbar-bg);
+      min-width: 170px;
+      box-shadow: var(--shadow);
+      z-index: 20;
+      border-radius: var(--radius);
+      top: 110%;
+      left: 0;
+      padding: 2px 0;
+      border: 1px solid var(--border);
+    }
+    .dropdown-content button {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 11px 16px;
+      text-align: left;
+      border-radius: 0;
+      font-size: 15px;
+      color: var(--text);
+      transition: background .15s, color .15s;
+    }
+    .dropdown-content button:hover {
+      background: var(--primary-light);
+      color: var(--icon-hover);
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .editor-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+    }
+    .editor {
+      width: 100%;
+      max-width: 760px;
+      margin: 22px 0 0 0;
+      min-height: 400px;
+      background: var(--editor-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--border);
+      outline: none;
+      padding: 24px;
+      font-size: 1.11rem;
+      line-height: 1.7;
+      transition: border .2s, background .2s;
+      resize: vertical;
+      overflow: auto;
+      word-break: break-word;
+    }
+    .editor:focus {
+      border: 1.5px solid var(--primary);
+    }
+    .wordcount {
+      max-width: 760px;
+      margin: 8px auto 18px;
+      text-align: right;
+      font-size: 14px;
+      color: var(--text-light);
+      letter-spacing: .04em;
+      user-select: none;
+    }
+    @media (max-width: 900px) {
+      .editor, .wordcount {
+        max-width: 99vw;
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+    @media (max-width: 600px) {
+      .toolbar {
+        padding: 7px 2px 7px 2px;
+        gap: 3px;
+        font-size: 14px;
+      }
+      .editor-wrapper {
+        padding: 0;
+      }
+      .editor {
+        padding: 12px;
+        min-height: 180px;
+        font-size: 1rem;
+      }
+      .wordcount {
+        margin-right: 4vw;
+      }
+    }
+    /* Hide scroll on toolbar for prettier look */
+    .toolbar::-webkit-scrollbar { display: none; }
+    .toolbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/turndown/dist/turndown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body data-theme="light">
+  <div class="toolbar" id="toolbar">
+    <button onclick="format('bold')" title="Đậm"><i class="fas fa-bold"></i></button>
+    <button onclick="format('italic')" title="Nghiêng"><i class="fas fa-italic"></i></button>
+    <button onclick="format('underline')" title="Gạch chân"><i class="fas fa-underline"></i></button>
+    <button onclick="format('insertUnorderedList')" title="Danh sách"><i class="fas fa-list-ul"></i></button>
+    <button onclick="format('justifyLeft')" title="Căn trái"><i class="fas fa-align-left"></i></button>
+    <button onclick="format('justifyCenter')" title="Căn giữa"><i class="fas fa-align-center"></i></button>
+    <button onclick="format('justifyRight')" title="Căn phải"><i class="fas fa-align-right"></i></button>
+    <select onchange="format('fontName', this.value)" title="Phông chữ">
+      <option value="">Phông chữ</option>
+      <option value="Arial">Arial</option>
+      <option value="Courier New">Courier</option>
+      <option value="Times New Roman">Times</option>
+      <option value="Comic Sans MS">Comic Sans</option>
+    </select>
+    <select onchange="format('fontSize', this.value)" title="Cỡ chữ">
+      <option value="">Cỡ chữ</option>
+      <option value="1">Rất nhỏ</option>
+      <option value="3">Bình thường</option>
+      <option value="5">Lớn</option>
+      <option value="7">Rất lớn</option>
+    </select>
+    <input type="color" onchange="format('foreColor', this.value)" title="Màu chữ">
+    <input type="color" onchange="format('hiliteColor', this.value)" title="Màu nền chữ">
+    <button onclick="insertLink()" title="Thêm liên kết"><i class="fas fa-link"></i></button>
+    <button onclick="insertImage()" title="Thêm ảnh"><i class="fas fa-image"></i></button>
+    <button onclick="insertVideo()" title="Chèn video YouTube"><i class="fas fa-video"></i></button>
+    <button onclick="format('undo')" title="Hoàn tác"><i class="fas fa-undo"></i></button>
+    <button onclick="format('redo')" title="Làm lại"><i class="fas fa-redo"></i></button>
+    <div class="dropdown">
+      <button title="Nhập tập tin"><i class="fas fa-file-import"></i></button>
+      <div class="dropdown-content">
+        <input type="file" id="fileInput" accept=".txt, .html, .md" style="display: none;" onchange="importFile(event)">
+        <button onclick="document.getElementById('fileInput').click()"><i class="fas fa-file-upload"></i> Chọn file</button>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button title="Xuất tập tin"><i class="fas fa-file-export"></i></button>
+      <div class="dropdown-content">
+        <button onclick="exportFile('txt')"><i class="fas fa-file-alt"></i> Xuất TXT</button>
+        <button onclick="exportFile('html')"><i class="fas fa-code"></i> Xuất HTML</button>
+        <button onclick="exportFile('md')"><i class="fas fa-file-markdown"></i> Xuất Markdown</button>
+        <button onclick="exportFile('pdf')"><i class="fas fa-file-pdf"></i> Xuất PDF</button>
+      </div>
+    </div>
+    <button onclick="toggleTheme()" title="Đổi giao diện"><i class="fas fa-moon"></i>/<i class="fas fa-sun"></i></button>
+    <button onclick="clearEditor()" title="Xóa tất cả"><i class="fas fa-trash"></i></button>
+  </div>
+  <div class="editor-wrapper">
+    <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Khu vực soạn thảo">
+      ✍️ Bắt đầu chill nào...
+    </div>
+  </div>
+  <div class="wordcount" id="wordcount">0 từ, 0 ký tự</div>
+  <script>
+    const editor = document.getElementById('editor');
+    const { jsPDF } = window.jspdf;
+    const showdownConverter = new showdown.Converter();
+    const turndownService = new TurndownService();
+
+    function format(cmd, val = null) {
+      editor.focus();
+      document.execCommand(cmd, false, val);
+      updateWordCount();
+      saveToLocal();
+    }
+    function insertLink() {
+      const url = prompt("Nhập URL liên kết:");
+      if (url) format('createLink', url);
+    }
+    function insertImage() {
+      const url = prompt("Dán link ảnh vào đây:");
+      if (url) format('insertImage', url);
+    }
+    function insertVideo() {
+      const url = prompt("Dán link YouTube:");
+      if (url) {
+        let embedUrl = url;
+        if (/youtube\.com\/watch\?v=/.test(url)) {
+          embedUrl = url.replace("watch?v=", "embed/");
+        } else if (/youtu\.be\//.test(url)) {
+          embedUrl = "https://www.youtube.com/embed/" + url.split('/').pop();
+        }
+        const iframe = `<br><iframe width='100%' height='315' src='${embedUrl}' frameborder='0' allowfullscreen style="max-width:100%;"></iframe><br>`;
+        document.execCommand('insertHTML', false, iframe);
+        updateWordCount();
+        saveToLocal();
+      }
+    }
+    function importFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        let content = e.target.result;
+        if (file.name.endsWith('.md')) {
+          content = showdownConverter.makeHtml(content);
+        }
+        editor.innerHTML = content;
+        updateWordCount();
+        saveToLocal();
+      };
+      reader.readAsText(file);
+    }
+    function exportFile(type) {
+      let filename = 'vanban_text2';
+      let content;
+      let mimeType;
+      switch (type) {
+        case 'txt':
+          content = editor.innerText;
+          mimeType = 'text/plain';
+          filename += '.txt';
+          break;
+        case 'html':
+          content = editor.innerHTML;
+          mimeType = 'text/html';
+          filename += '.html';
+          break;
+        case 'md':
+          content = turndownService.turndown(editor.innerHTML);
+          mimeType = 'text/markdown';
+          filename += '.md';
+          break;
+        case 'pdf':
+          exportPDF();
+          return;
+        default:
+          return;
+      }
+      const blob = new Blob([content], { type: mimeType });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 500);
+    }
+    function exportPDF() {
+      const doc = new jsPDF({ unit: "mm", format: "a4" });
+      let content = editor.innerText;
+      let lines = doc.splitTextToSize(content, 180);
+      doc.text(lines, 15, 20);
+      doc.save('vanban_text2.pdf');
+    }
+    function toggleTheme() {
+      const body = document.body;
+      const current = body.getAttribute("data-theme");
+      body.setAttribute("data-theme", current === "light" ? "dark" : "light");
+      saveToLocal();
+    }
+    function updateWordCount() {
+      const text = editor.innerText.replace(/\u200B/g, '').trim();
+      const words = text.split(/\s+/).filter(Boolean);
+      document.getElementById('wordcount').innerText = `${words.length} từ, ${text.length} ký tự`;
+    }
+    function saveToLocal() {
+      localStorage.setItem('text2_autosave', editor.innerHTML);
+      localStorage.setItem('text2_theme', document.body.getAttribute('data-theme'));
+    }
+    function restoreFromLocal() {
+      const saved = localStorage.getItem('text2_autosave');
+      if (saved) editor.innerHTML = saved;
+      const theme = localStorage.getItem('text2_theme');
+      if (theme) document.body.setAttribute('data-theme', theme);
+    }
+    function clearEditor() {
+      if (confirm("Bạn có chắc chắn muốn xóa toàn bộ nội dung?")) {
+        editor.innerHTML = "";
+        updateWordCount();
+        saveToLocal();
+      }
+    }
+    // Auto-save và update word count mỗi khi nội dung thay đổi
+    editor.addEventListener('input', () => {
+      updateWordCount();
+      saveToLocal();
+    });
+    // Tải lại dữ liệu khi load trang
+    restoreFromLocal();
+    updateWordCount();
+
+    // Phím tắt cơ bản (Ctrl+S để lưu, Ctrl+B/I/U cho đậm/nghiêng/gạch chân)
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        saveToLocal();
+        alert('Đã lưu bản nháp!');
+      }
+      if (e.ctrlKey && e.key.toLowerCase() === 'b') { e.preventDefault(); format('bold'); }
+      if (e.ctrlKey && e.key.toLowerCase() === 'i') { e.preventDefault(); format('italic'); }
+      if (e.ctrlKey && e.key.toLowerCase() === 'u') { e.preventDefault(); format('underline'); }
+    });
+
+    // Ẩn toolbar khi cuộn xuống trên mobile (có thể bật tắt nếu thích)
+    /*
+    let lastScroll = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const toolbar = document.getElementById('toolbar');
+      if(window.innerWidth <= 600) {
+        if(window.scrollY > lastScroll) toolbar.style.top = "-60px";
+        else toolbar.style.top = "0";
+        lastScroll = window.scrollY;
+      }
+    });
+    */
+  </script>
+</body>
+</html>
