@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style></style>
+</head>
+<body>
+  <!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tạo QR Code với màu sắc tùy chỉnh - Phiên bản "Đỉnh Cao"</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+  <style>
+    /* Global styles for a sleek, dark theme */
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif; /* Primary font */
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a); /* Subtle dark gradient background */
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+    }
+
+    /* Header - Dynamic & Engaging */
+    header {
+      background: linear-gradient(90deg, #1e7e34, #28a745, #3498db); /* More vibrant gradient */
+      padding: 1.2rem 1rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+      animation: gradientShift 10s ease infinite alternate; /* Animated gradient */
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      color: white;
+      font-family: 'Montserrat', sans-serif; /* Different font for logo */
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .logo:hover {
+      transform: scale(1.05) rotate(-2deg); /* Interactive hover effect */
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem; /* Space between nav links */
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      transition: all 0.3s ease-in-out;
+    }
+
+    nav a::after { /* Underline effect */
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: -5px;
+      left: 0;
+      background-color: #a4fba6;
+      transition: width 0.3s ease-in-out;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: #a4fba6; /* Highlight color on hover */
+      transform: translateY(-2px); /* Slight lift effect */
+    }
+
+    /* Main content area */
+    main {
+      max-width: 1200px;
+      margin: 2.5rem auto; /* More margin */
+      padding: 0 1.5rem;
+      flex-grow: 1;
+    }
+
+    /* Card - Elevated & Interactive */
+    .card {
+      background: #1e1e1e;
+      border: 2px solid #28a745;
+      border-radius: 28px; /* More rounded corners */
+      padding: 35px; /* More padding */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(40, 167, 69, 0.4); /* Deeper shadow with glow */
+      display: flex;
+      flex-direction: column;
+      gap: 20px; /* More space between elements */
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px); /* Lift card on hover */
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(40, 167, 69, 0.6); /* Enhanced shadow on hover */
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.2rem; /* Larger heading */
+      background: linear-gradient(45deg, #1e7e34, #28a745, #3498db); /* Gradient for heading */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; /* Text with gradient fill */
+      padding: 16px;
+      border-radius: 18px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      animation: textGradient 5s ease infinite alternate; /* Animated text gradient */
+    }
+
+    @keyframes textGradient {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 10px;
+      display: block;
+      color: #a4fba6;
+      font-size: 1.1rem; /* Slightly larger label text */
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px; /* More padding */
+      background: #0f0f0f; /* Darker input background */
+      color: #e0e0e0;
+      border: 2px solid #28a745;
+      border-radius: 15px; /* More rounded */
+      margin-top: 8px;
+      transition: all 0.3s ease-in-out;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3); /* Inner shadow */
+      resize: vertical;
+    }
+
+    textarea:focus {
+      border-color: #3498db; /* Focus color */
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(52, 152, 219, 0.5); /* Glow on focus */
+      outline: none;
+    }
+
+    /* Button - Glowing & Dynamic */
+    button {
+      background: linear-gradient(45deg, #28a745, #3498db); /* Dynamic gradient for button */
+      color: white;
+      font-weight: bold;
+      padding: 15px 40px; /* More padding */
+      border: none;
+      border-radius: 15px; /* More rounded */
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.4s ease-in-out;
+      box-shadow: 0 6px 15px rgba(40, 167, 69, 0.6), 0 0 20px rgba(52, 152, 219, 0.4); /* Dual shadow */
+      position: relative;
+      overflow: hidden; /* For shine effect */
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #3498db, #28a745); /* Reverse gradient on hover */
+      transform: scale(1.08) translateY(-3px); /* Lift and enlarge */
+      box-shadow: 0 8px 20px rgba(40, 167, 69, 0.8), 0 0 30px rgba(52, 152, 219, 0.6); /* Stronger shadow */
+    }
+
+    button::before { /* Shine effect */
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: skewX(-20deg);
+      transition: all 0.6s ease;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    #qrcode canvas {
+      margin-top: 25px;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(40, 167, 69, 0.3); /* Shadow for QR code */
+      max-width: 100%;
+      height: auto;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #qrcode canvas:hover {
+        transform: scale(1.02); /* Slight scale on hover */
+    }
+
+    #downloadLink {
+      display: inline-block;
+      background: #121212;
+      border: 2px solid #3498db; /* Blue border */
+      color: #3498db;
+      padding: 12px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 25px;
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4); /* Blue shadow */
+      transition: all 0.3s ease-in-out;
+    }
+
+    #downloadLink:hover {
+      background: #3498db;
+      color: white;
+      transform: translateY(-2px); /* Lift effect */
+      box-shadow: 0 6px 15px rgba(52, 152, 219, 0.6);
+    }
+
+    /* Footer - Modern & Subtle */
+    footer {
+      background: #1e1e1e;
+      padding: 2.5rem;
+      margin-top: auto;
+      border-top: 2px solid #28a745;
+      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5); /* Shadow for footer */
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      color: #a4fba6;
+      font-size: 0.95rem;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    /* Pickr adjustments - Integrated with new theme */
+    .pickr {
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .pickr .pcr-button {
+        height: 45px; /* Slightly taller button */
+        width: 100%;
+        border-radius: 15px; /* More rounded */
+        border: 2px solid #3498db; /* Blue border for Pickr button */
+        background-color: #0f0f0f; /* Darker background */
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .pickr .pcr-button:hover {
+        border-color: #28a745; /* Green border on hover */
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(40, 167, 69, 0.5);
+    }
+
+    /* Responsive adjustments for mobile */
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem;
+      }
+      .header-content {
+        flex-direction: column;
+        align-items: center; /* Center items on mobile header */
+        gap: 1rem;
+      }
+
+      .logo {
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+      }
+
+      nav {
+        flex-direction: column; /* Menu links stack vertically */
+        gap: 0.8rem;
+        width: 100%;
+      }
+
+      nav a {
+        margin: 0;
+        padding: 0.5rem 0;
+        text-align: center;
+      }
+
+      main {
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .card {
+        padding: 25px;
+        border-radius: 20px;
+        gap: 15px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        padding: 10px;
+        margin-bottom: 15px;
+      }
+
+      label {
+        font-size: 1rem;
+      }
+
+      textarea {
+        padding: 12px;
+        border-radius: 12px;
+      }
+
+      button {
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-size: 1rem;
+        width: 100%; /* Full width button on mobile */
+        margin-top: 15px;
+      }
+
+      #downloadLink {
+        padding: 10px 24px;
+        width: 100%;
+        text-align: center;
+        font-size: 0.95rem;
+        margin-top: 15px;
+      }
+
+      #qrcode canvas {
+        margin-top: 20px;
+        width: 250px; /* Limit QR code size on very small screens */
+        height: 250px;
+      }
+
+      footer {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+        .logo {
+            font-size: 1.3rem;
+        }
+        h1 {
+            font-size: 1.5rem;
+        }
+        #qrcode canvas {
+            width: 200px; /* Smaller QR code for tiny screens */
+            height: 200px;
+        }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo">QR Code Generator</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h1>Create QR Code with Custom Colors</h1>
+
+      <label for="textInput">Enter text or link:</label>
+      <textarea id="textInput" rows="4" placeholder="Paste your text or URL here..."></textarea>
+
+      <label for="darkColor">Choose QR code color:</label>
+      <div id="darkColor"></div>
+
+      <label for="lightColor">Choose background color:</label>
+      <div id="lightColor"></div>
+
+      <div class="text-center">
+        <button onclick="generateQR()">✨ Create Awesome QR ✨</button>
+      </div>
+
+      <div id="qrcode" class="text-center"></div>
+      <div class="text-center">
+        <a id="downloadLink" style="display:none;" download="awesome-qr-code.png">⬇️ Download Your QR Code</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2024 QR Code Generator. Built with 💚 by Hóa Nhật Anh.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Khởi tạo Pickr cho darkColor và lightColor
+    const darkPicker = Pickr.create({
+      el: '#darkColor',
+      theme: 'classic',
+      default: '#28a745', // Default green
+      swatches: [
+        '#28a745', '#3498db', '#e74c3c', '#f1c40f', '#9b59b6', '#1abc9c', '#f39c12', '#2c3e50'
+      ],
+      components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+        interaction: {
+          hex: true,
+          rgba: true
+        }
+      }
+    });
+
+    const lightPicker = Pickr.create({
+      el: '#lightColor',
+      theme: 'classic',
+      default: '#121212', // Default dark background
+      swatches: [
+        '#121212', '#FFFFFF', '#f5f5f5', '#ecf0f1', '#bdc3c7', '#7f8c8d', '#34495e', '#95a5a6'
+      ],
+      components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+        interaction: {
+          hex: true,
+          rgba: true
+        }
+      }
+    });
+
+    function generateQR() {
+      const text = document.getElementById("textInput").value.trim();
+      const darkColor = darkPicker.getColor().toHEXA().toString();
+      const lightColor = lightPicker.getColor().toHEXA().toString();
+      const qrContainer = document.getElementById("qrcode");
+      const downloadLink = document.getElementById("downloadLink");
+
+      if (!text) {
+        alert("Oops! Bạn chưa nhập gì cả. Vui lòng nhập nội dung hoặc link nha! ✨");
+        return;
+      }
+
+      qrContainer.innerHTML = "";
+      downloadLink.style.display = "none";
+
+      QRCode.toCanvas(text, {
+        width: 300,
+        color: {
+          dark: darkColor,
+          light: lightColor
+        }
+      }, function (err, canvas) {
+        if (err) {
+            console.error(err);
+            alert("Có vẻ đã có lỗi xảy ra khi tạo QR code. Vui lòng thử lại sau nhé!");
+            return;
+        }
+
+        qrContainer.appendChild(canvas);
+        const dataURL = canvas.toDataURL("image/png");
+        downloadLink.href = dataURL;
+        downloadLink.style.display = "inline-block";
+        downloadLink.download = `qr-code-${Date.now()}.png`; // Unique filename
+      });
+    }
+  </script>
+</body>
+</html>
+  <script></script>
+</body>
+</html>
