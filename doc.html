@@ -22,6 +22,7 @@
       --shadow: 0 2px 16px 0 rgba(0,0,0,0.06);
       --editor-shadow: 0 4px 50px 0 rgba(0,0,0,0.12);
       --toolbar-shadow: 0 2px 10px 0 rgba(0,0,0,.07);
+      --highlight: #ffecb3;
     }
     [data-theme="dark"] {
       --primary: #61dafb;
@@ -37,6 +38,7 @@
       --shadow: 0 2px 20px 0 rgba(0,0,0,0.29);
       --editor-shadow: 0 6px 60px 0 rgba(0,0,0,0.44);
       --toolbar-shadow: 0 2px 14px 0 rgba(0,0,0,.25);
+      --highlight: #655c11;
     }
     html, body {
       background: var(--bg);
@@ -122,11 +124,11 @@
       border: none;
     }
 
-    .dropdown {
+    .dropdown, .search-dropdown {
       position: relative;
       display: inline-block;
     }
-    .dropdown-content {
+    .dropdown-content, .search-content {
       display: none;
       position: absolute;
       left: 0;
@@ -139,6 +141,11 @@
       border: 1.5px solid var(--border);
       animation: dropdownFade .18s;
       overflow: visible;
+    }
+    .search-content {
+      min-width: 300px;
+      padding: 10px;
+      box-sizing: border-box;
     }
     @keyframes dropdownFade {
       from { opacity: 0; transform: translateY(-8px);}
@@ -166,6 +173,9 @@
     }
     .dropdown:hover .dropdown-content,
     .dropdown:focus-within .dropdown-content {
+      display: block;
+    }
+    .search-dropdown.active .search-content {
       display: block;
     }
     .editor-outer {
@@ -196,6 +206,7 @@
       transition: box-shadow .19s, background .17s;
       word-break: break-word;
       box-shadow: none;
+      position: relative;
     }
     .editor:focus {
       background: var(--editor-bg);
@@ -228,17 +239,97 @@
       gap: 10px;
       margin-top: 12px;
     }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: 100%;
+      background: var(--toolbar-bg);
+      border-radius: 8px;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      box-sizing: border-box;
+    }
+    .search-bar input[type="text"] {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 15px;
+      color: var(--text);
+      padding: 6px 6px;
+    }
+    .search-bar button {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .search-bar button:hover {
+      background: var(--primary-dark);
+    }
+    mark.search-highlight {
+      background: var(--highlight);
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+    /* Ảnh có thể resize và kéo */
+    .editor img.resizable-draggable {
+      max-width: 100%;
+      min-width: 40px;
+      min-height: 40px;
+      display: block;
+      margin: 12px auto;
+      border: 1.5px dashed var(--border);
+      cursor: move;
+      resize: both;
+      overflow: auto;
+      box-sizing: border-box;
+      background: #fff;
+      transition: box-shadow 0.18s;
+      outline: none;
+    }
+    .editor img.resizable-draggable.selected {
+      box-shadow: 0 0 0 3px var(--primary-light);
+      border: 2px solid var(--primary);
+    }
+    /* Modal xem ảnh */
+    .img-modal-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.78);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .img-modal-bg img {
+      max-width: 98vw;
+      max-height: 96vh;
+      box-shadow: 0 0 24px 2px #000a;
+      border-radius: 10px;
+      background: #fff;
+    }
     /* Responsive */
     @media (max-width: 600px) {
       .container { max-width: 100vw; }
       .toolbar { padding: 6px 1vw 6px 2vw; gap: 3px; font-size: 14px;}
       .editor-outer { border-radius: 0 0 14px 14px; }
       .editor { padding: 16px 3vw 14px 3vw; font-size: 1rem; }
-      .dropdown-content {
+      .dropdown-content, .search-content {
         min-width: 85vw;
         left: 50%;
         transform: translateX(-50%);
       }
+      .search-bar { font-size: 13px; }
     }
     @media (max-width: 400px) {
       .editor { padding: 9px 2vw 8px 2vw; font-size: .99rem;}
@@ -275,8 +366,12 @@
       <input type="color" onchange="format('foreColor', this.value)" title="Màu chữ">
       <input type="color" onchange="format('hiliteColor', this.value)" title="Màu nền chữ">
       <button onclick="insertLink()" title="Thêm liên kết"><i class="fas fa-link"></i></button>
-      <button onclick="insertImage()" title="Thêm ảnh"><i class="fas fa-image"></i></button>
+      <!-- Thêm nút chọn ảnh từ thiết bị -->
+      <input type="file" id="imgInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+      <button onclick="document.getElementById('imgInput').click()" title="Thêm ảnh từ thiết bị"><i class="fas fa-image"></i></button>
       <button onclick="insertVideo()" title="Chèn video YouTube"><i class="fas fa-video"></i></button>
+      <!-- Thêm nút thêm bảng -->
+      <button onclick="insertTable()" title="Thêm bảng"><i class="fas fa-table"></i></button>
       <button onclick="format('undo')" title="Hoàn tác"><i class="fas fa-undo"></i></button>
       <button onclick="format('redo')" title="Làm lại"><i class="fas fa-redo"></i></button>
       <div class="dropdown">
@@ -297,6 +392,17 @@
       </div>
       <button onclick="toggleTheme()" title="Đổi giao diện"><i class="fas fa-moon"></i>/<i class="fas fa-sun"></i></button>
       <button onclick="clearEditor()" title="Xóa tất cả"><i class="fas fa-trash"></i></button>
+      <!-- Nút tìm kiếm dạng dropdown -->
+      <div class="search-dropdown" id="searchDropdown">
+        <button onclick="toggleSearchDropdown()" title="Tìm kiếm"><i class="fas fa-search"></i></button>
+        <div class="search-content">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm trong văn bản..." aria-label="Tìm kiếm">
+            <button onclick="searchInEditor()" title="Tìm kiếm"><i class="fas fa-search"></i></button>
+            <button onclick="clearSearch()" title="Xóa tìm kiếm"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="editor-outer">
       <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Khu vực soạn thảo" data-placeholder="✍️ Bắt đầu gõ văn bản..."></div>
@@ -309,6 +415,44 @@
     const showdownConverter = new showdown.Converter();
     const turndownService = new TurndownService();
 
+    // Xử lý thêm ảnh từ thiết bị
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = "resizable-draggable";
+        img.setAttribute("tabindex", "0");
+        // Thêm event click để xem ảnh lớn
+        img.onclick = (ev) => showImageModal(img.src);
+        makeImageDraggableAndResizable(img);
+        insertNodeAtCaret(img);
+        updateWordCount();
+        saveToLocal();
+      };
+      reader.readAsDataURL(file);
+      event.target.value = "";
+    }
+
+    // Chèn node vào vị trí caret
+    function insertNodeAtCaret(node) {
+      let sel = window.getSelection();
+      if (!sel.rangeCount) {
+        editor.appendChild(node);
+        return;
+      }
+      let range = sel.getRangeAt(0);
+      range.collapse(false);
+      range.insertNode(node);
+      // Đưa caret về sau node vừa chèn
+      range.setStartAfter(node);
+      range.setEndAfter(node);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+
     function format(cmd, val = null) {
       editor.focus();
       document.execCommand(cmd, false, val);
@@ -319,10 +463,7 @@
       const url = prompt("Nhập URL liên kết:");
       if (url) format('createLink', url);
     }
-    function insertImage() {
-      const url = prompt("Dán link ảnh vào đây:");
-      if (url) format('insertImage', url);
-    }
+
     function insertVideo() {
       const url = prompt("Dán link YouTube:");
       if (url) {
@@ -350,6 +491,10 @@
         editor.innerHTML = content;
         updateWordCount();
         saveToLocal();
+        // Khôi phục tính năng resize/di chuyển cho ảnh đã có sẵn
+        setTimeout(() => {
+          setupAllImages();
+        }, 100);
       };
       reader.readAsText(file);
     }
@@ -411,6 +556,10 @@
       if (saved) editor.innerHTML = saved;
       const theme = localStorage.getItem('text2_theme');
       if (theme) document.body.setAttribute('data-theme', theme);
+      // Setup lại ảnh sau khi load
+      setTimeout(() => {
+        setupAllImages();
+      }, 100);
     }
     function clearEditor() {
       if (confirm("Bạn có chắc chắn muốn xóa toàn bộ nội dung?")) {
@@ -422,6 +571,8 @@
     editor.addEventListener('input', () => {
       updateWordCount();
       saveToLocal();
+      clearSearch();
+      setupAllImages();
     });
     restoreFromLocal();
     updateWordCount();
@@ -436,6 +587,191 @@
       if (e.ctrlKey && e.key.toLowerCase() === 'b') { e.preventDefault(); format('bold'); }
       if (e.ctrlKey && e.key.toLowerCase() === 'i') { e.preventDefault(); format('italic'); }
       if (e.ctrlKey && e.key.toLowerCase() === 'u') { e.preventDefault(); format('underline'); }
+      // Ctrl+F mở search input focus
+      if (e.ctrlKey && e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        toggleSearchDropdown(true);
+        setTimeout(() => document.getElementById('searchInput').focus(), 100);
+      }
+    });
+
+    // Thêm bảng
+    function insertTable() {
+      let rows = parseInt(prompt("Nhập số hàng:", "2"));
+      let cols = parseInt(prompt("Nhập số cột:", "2"));
+      if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1) return;
+      let table = document.createElement('table');
+      table.style.borderCollapse = "collapse";
+      table.style.width = "100%";
+      table.style.margin = "10px 0";
+      table.style.background = "inherit";
+      for (let r = 0; r < rows; r++) {
+        let tr = document.createElement('tr');
+        for (let c = 0; c < cols; c++) {
+          let cell = r === 0 ? document.createElement('th') : document.createElement('td');
+          cell.innerHTML = r === 0 ? `Tiêu đề ${c+1}` : `Dữ liệu`;
+          cell.style.border = "1px solid var(--border)";
+          cell.style.padding = "6px 10px";
+          tr.appendChild(cell);
+        }
+        table.appendChild(tr);
+      }
+      insertNodeAtCaret(table);
+      updateWordCount();
+      saveToLocal();
+    }
+
+    // Tìm kiếm trong editor và highlight
+    let lastSearchTerm = "";
+    function searchInEditor() {
+      clearSearch();
+      let term = document.getElementById('searchInput').value.trim();
+      if (!term) return;
+      lastSearchTerm = term;
+      highlightSearch(term);
+    }
+
+    // Highlight tất cả kết quả tìm kiếm
+    function highlightSearch(term) {
+      if (!term) return;
+      function walk(node) {
+        if (node.nodeType === 3) {
+          let idx = node.nodeValue.toLowerCase().indexOf(term.toLowerCase());
+          if (idx > -1) {
+            let span = document.createElement('span');
+            span.innerHTML = node.nodeValue.replace(new RegExp(term, 'gi'), (match) => `<mark class="search-highlight">${match}</mark>`);
+            node.replaceWith(...span.childNodes);
+          }
+        } else if (node.nodeType === 1 && node.childNodes && !["SCRIPT", "STYLE", "IFRAME"].includes(node.tagName)) {
+          Array.from(node.childNodes).forEach(walk);
+        }
+      }
+      walk(editor);
+    }
+
+    // Clear highlight
+    function clearSearch() {
+      if (!lastSearchTerm) return;
+      let html = editor.innerHTML;
+      html = html.replace(/<mark class="search-highlight">([\s\S]*?)<\/mark>/gi, '$1');
+      editor.innerHTML = html;
+      lastSearchTerm = "";
+      updateWordCount();
+      saveToLocal();
+      setupAllImages();
+    }
+
+    // Search enter
+    document.getElementById('searchInput').addEventListener('keydown', function(e) {
+      if (e.key === "Enter") {
+        searchInEditor();
+      }
+    });
+
+    // Ẩn/hiện search dropdown
+    function toggleSearchDropdown(forceShow) {
+      const dropdown = document.getElementById('searchDropdown');
+      if (forceShow === true) {
+        dropdown.classList.add('active');
+      } else if (forceShow === false) {
+        dropdown.classList.remove('active');
+      } else {
+        dropdown.classList.toggle('active');
+      }
+      if (dropdown.classList.contains('active')) {
+        setTimeout(() => document.getElementById('searchInput').focus(), 60);
+      }
+    }
+    document.addEventListener('mousedown', function(e) {
+      const searchDropdown = document.getElementById('searchDropdown');
+      if (!searchDropdown.contains(e.target)) {
+        searchDropdown.classList.remove('active');
+      }
+    });
+
+    // ========== ẢNH: Resize, kéo, xem lớn ==========
+    // Tạo chức năng kéo và resize "thủ công" cho ảnh
+    function makeImageDraggableAndResizable(img) {
+      img.classList.add('resizable-draggable');
+      img.draggable = true;
+      img.style.resize = "both";
+      img.style.overflow = "auto";
+      img.onmousedown = function(e) {
+        selectImage(img);
+      };
+      // Drag & drop
+      img.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', 'imgmove');
+        window._imgMoving = img;
+      });
+    }
+    // Đưa lại tất cả ảnh đã có về trạng thái draggable & resizable
+    function setupAllImages() {
+      editor.querySelectorAll('img').forEach(img => {
+        if (!img.classList.contains('resizable-draggable')) {
+          img.classList.add('resizable-draggable');
+          img.setAttribute("tabindex", "0");
+          img.onclick = (ev) => showImageModal(img.src);
+        }
+        makeImageDraggableAndResizable(img);
+      });
+    }
+    // Kéo thả hình vào vị trí mới trong editor
+    editor.addEventListener('dragover', function(e) {
+      if (window._imgMoving) e.preventDefault();
+    });
+    editor.addEventListener('drop', function(e) {
+      if (!window._imgMoving) return;
+      e.preventDefault();
+      let range;
+      if (document.caretRangeFromPoint) {
+        range = document.caretRangeFromPoint(e.clientX, e.clientY);
+      } else if (e.rangeParent) {
+        range = document.createRange();
+        range.setStart(e.rangeParent, e.rangeOffset);
+      }
+      if (range) {
+        range.insertNode(window._imgMoving);
+      }
+      window._imgMoving = null;
+      saveToLocal();
+    });
+    // Chọn ảnh (hiển thị border, dùng cho resize bằng phím)
+    function selectImage(img) {
+      editor.querySelectorAll('img.resizable-draggable').forEach(im => im.classList.remove('selected'));
+      img.classList.add('selected');
+      setTimeout(() => {
+        img.focus();
+      }, 20);
+    }
+    // Xem ảnh lớn
+    function showImageModal(src) {
+      const modal = document.createElement('div');
+      modal.className = 'img-modal-bg';
+      modal.innerHTML = '<img src="' + src + '" />';
+      modal.onclick = function() {
+        document.body.removeChild(modal);
+      };
+      document.body.appendChild(modal);
+    }
+    // Hỗ trợ phím xóa khi chọn ảnh
+    editor.addEventListener('keydown', function(e) {
+      if (e.key === "Delete" || e.key === "Backspace") {
+        let img = document.activeElement;
+        if (img && img.tagName === "IMG" && img.classList.contains('selected')) {
+          const toRemove = img;
+          // Đưa focus vào editor sau khi xóa
+          setTimeout(() => editor.focus(), 20);
+          toRemove.remove();
+          saveToLocal();
+        }
+      }
+    });
+    // Khi click ra ngoài thì bỏ chọn ảnh
+    editor.addEventListener('mousedown', function(e) {
+      if (!(e.target.tagName === "IMG" && e.target.classList.contains('resizable-draggable'))) {
+        editor.querySelectorAll('img.resizable-draggable').forEach(im => im.classList.remove('selected'));
+      }
     });
   </script>
 </body>
