@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Telling Compatibility By Name</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 100%;
+            z-index: 1000;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff3366;
+            text-decoration: none;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ff3366;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        #container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+        #container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff3366, #ff6699);
+        }
+        h1 {
+            color: #ff3366;
+            font-size: 36px;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            position: relative;
+            margin: 20px 0;
+        }
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #ff6699;
+            border-radius: 12px;
+            outline: none;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            background: #fff;
+        }
+        input:focus {
+            border-color: #ff3366;
+            background: #fff0f5;
+            box-shadow: 0 0 15px rgba(255, 51, 102, 0.2);
+        }
+        button {
+            background: linear-gradient(45deg, #ff3366, #ff6699);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        #result {
+            margin-top: 30px;
+            font-size: 24px;
+            color: #444;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 12px;
+            background: #fff0f5;
+        }
+        .heart-icon {
+            color: #ff3366;
+            font-size: 28px;
+            margin-right: 10px;
+            animation: heartbeat 1.5s infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .error-message {
+            color: #ff3366;
+            font-size: 16px;
+            margin-top: 10px;
+            display: none;
+        }
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+        .footer-links a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: #ff3366;
+        }
+        .copyright {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">❤️ Love Match</a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div id="container">
+            <h1>❤️ Love Match ❤️</h1>
+            <div class="input-group">
+                <input id="name1" placeholder="Enter first name" type="text" />
+            </div>
+            <div class="input-group">
+                <input id="name2" placeholder="Enter second name" type="text" />
+            </div>
+            <button onclick="calculateCompatibility()">Calculate Love</button>
+            <div id="result"></div>
+            <div class="error-message" id="error"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">FAQ</a>
+            </div>
+            <p class="copyright">© 2024 Love Match. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function calculateCompatibility() {
+            let name1 = document.getElementById('name1').value.trim().toLowerCase();
+            let name2 = document.getElementById('name2').value.trim().toLowerCase();
+            let result = document.getElementById('result');
+            let error = document.getElementById('error');
+            
+            if (!name1 || !name2) {
+                error.style.display = 'block';
+                error.textContent = "Please enter both names!";
+                return;
+            }
+            
+            error.style.display = 'none';
+            let totalValue = 0;
+            for (let char of name1 + name2) totalValue += char.charCodeAt(0);
+            let lovePercentage = totalValue % 101;
+            
+            let message = '';
+            if (lovePercentage >= 80) {
+                message = "Perfect Match! 💑";
+            } else if (lovePercentage >= 60) {
+                message = "Great Compatibility! 💕";
+            } else if (lovePercentage >= 40) {
+                message = "Good Potential! 💖";
+            } else {
+                message = "Keep Looking! 💔";
+            }
+            
+            result.innerHTML = `<span class="heart-icon">❤️</span> Love Score: <strong>${lovePercentage}%</strong><br>${message}`;
+        }
+
+        // Add enter key support
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateCompatibility();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
