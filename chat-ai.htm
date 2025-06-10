@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat AI  - TEXT2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #28a745;
+            --accent-hover: #218838;
+            --message-user: #28a745;
+            --message-bot: #2d2d2d;
+            --input-bg: #333333;
+            --border-color: #404040;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: var(--text-primary);
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Main Content Styles */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 120px);
+            width: 100%;
+        }
+
+        #chat-box {
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) var(--bg-secondary);
+            max-height: calc(100vh - 200px);
+            scroll-behavior: smooth;
+        }
+
+        #chat-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #chat-box::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        #chat-box::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation-fill-mode: forwards;
+        }
+
+        .user-message {
+            background: var(--message-user);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+        }
+
+        .bot-message {
+            background: var(--message-bot);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        #input-box {
+            display: flex;
+            gap: 0.8rem;
+            background: var(--bg-secondary);
+            padding: 0.8rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+        }
+
+        #userInput {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        #userInput::placeholder {
+            color: var(--text-secondary);
+        }
+
+        #userInput:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.1);
+        }
+
+        #sendButton {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        #sendButton:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Footer Styles */
+        footer {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 0.8rem 1rem;
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .footer-section {
+            text-align: center;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .footer-section p, .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 0.2rem;
+            display: block;
+            font-size: 0.8rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            header {
+                padding: 0.8rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+                padding: 0;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            main {
+                margin: 0.5rem auto;
+                padding: 0 0.8rem;
+                height: calc(100vh - 160px);
+            }
+
+            #chat-box {
+                padding: 0.8rem;
+                gap: 0.8rem;
+            }
+
+            .message {
+                max-width: 90%;
+                padding: 0.7rem 0.9rem;
+                font-size: 0.9rem;
+            }
+
+            #input-box {
+                padding: 0.7rem;
+                gap: 0.6rem;
+                position: relative;
+            }
+
+            #userInput {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            #sendButton {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1.2rem;
+                padding: 0 1rem;
+            }
+
+            .footer-section {
+                padding: 0;
+            }
+
+            .footer-section h3 {
+                font-size: 1rem;
+            }
+
+            .footer-section p, .footer-section a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Small Mobile Devices */
+        @media (max-width: 380px) {
+            .nav-links {
+                gap: 0.5rem;
+            }
+
+            .nav-links a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .message {
+                max-width: 95%;
+                font-size: 0.85rem;
+            }
+
+            #sendButton {
+                padding: 0.7rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Text2 - Chat AI </div>
+            <nav class="nav-links">
+                <a href="https://text2.click">Home</a>
+                <a href="#">Introduce</a>
+                <a href="https://mai.text2.click ">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div id="chat-box"></div>
+        <div id="input-box">
+            <input id="userInput" placeholder="Nhập tin nhắn..." type="text" />
+            <button id="sendButton">Gửi</button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Text2 - AI Tiếng Việt</h3>
+                <p>© text2 company</p>
+            </div>
+            <div class="footer-section">
+                <p>Email: https://mail.text2.click</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("sendButton").addEventListener("click", sendMessage);
+        document.getElementById("userInput").addEventListener("keypress", function (e) {
+            if (e.key === "Enter") sendMessage();
+        });
+
+        function addBotMessage(text) {
+            const chatBox = document.getElementById("chat-box");
+            const messageDiv = document.createElement("div");
+            messageDiv.className = "message bot-message";
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                chatBox.scrollTo({
+                    top: chatBox.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+
+        window.onload = function () {
+            addBotMessage("Hello bạn yêu ✨ Mình là AI của Text2, cần gì nè?");
+        };
+
+        const keywordResponses = {
+            "nhật anh": "Nhật Anh là CEO của 504 Media, chuyên về AI, blog, và mạng xã hội.",
+            "504 media": "504 Media là công ty chuyên về công nghệ AI và nội dung số.",
+            "tạo ra": "Tôi được tạo ra bởi Nhật Anh, CEO của 504 Media và Text2.",
+            "chào": "Chào bạn iu! Có chuyện gì vui không nè?",
+            "cảm ơn": "Hihi, không có chi đâu nghen 🫶",
+            "anh tú": "Sinh viên VTV College và là bạn thân của Nhật Anh luôn!",
+            "chú hùng": "Tiệm Ảnh Chú Hùng - địa chỉ xịn tại Bến Tre đóa!",
+            "adobe": "Link bản crack Adobe từ 2020 đến 2025 nè: https://www.text2.click/p/ban-crack-adobe.html",
+            "huy hoàng": "Ca sĩ sắp nổi, follow liền nha!",
+            "ai là bạn": "Mình là trợ lý AI cực chất của Text2 nè 💚",
+        };
+
+        async function sendMessage() {
+            const userInput = document.getElementById("userInput");
+            const chatBox = document.getElementById("chat-box");
+            let message = userInput.value.trim().toLowerCase();
+
+            if (!message) return;
+
+            const userMessageDiv = document.createElement("div");
+            userMessageDiv.className = "message user-message";
+            userMessageDiv.textContent = message;
+            chatBox.appendChild(userMessageDiv);
+            
+            setTimeout(() => {
+                chatBox.scrollTo({
+                    top: chatBox.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
+
+            userInput.value = "";
+
+            for (const keyword in keywordResponses) {
+                if (message.includes(keyword)) {
+                    addBotMessage(keywordResponses[keyword]);
+                    return;
+                }
+            }
+
+            const apiKey = "AIzaSyBM0nbg1xXkD36Pn1CO6X4YY_AxmWh5NUM";
+            const formattedMessage = `Reply in under 700 characters and in a teen style: ${message}`;
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: formattedMessage }] }]
+                })
+            });
+
+            const data = await response.json();
+            let botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Oops, chưa hiểu câu nè 😅";
+            botReply = botReply.replace(/Gemini|Google/g, "Text2");
+            botReply = botReply.replace(/\*+/g, "");
+
+            addBotMessage(botReply);
+        }
+    </script>
+</body>
+</html>
