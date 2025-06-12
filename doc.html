@@ -2,351 +2,47 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Text2 - Doc </title>
-  <!-- Google tag (gtag.js) - GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-6J85STMJ14');
-</script>
+  <title>Text2 - Doc</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/p/AF1QipMAH2F9BWWLSU14YABENNfSIUDTinGdHOO3wC-S=s1360-w1360-h1020-rw">
   <style>
-    :root {
-      --primary: #007bff;
-      --primary-dark: #0056b3;
-      --primary-light: #e3f0ff;
-      --bg: #f6f8fb;
-      --editor-bg: #fff;
-      --toolbar-bg: #f5f7fa;
-      --border: #e3e6eb;
-      --text: #23272f;
-      --text-light: #8e99ab;
-      --icon: #555;
-      --radius: 18px;
-      --shadow: 0 2px 16px 0 rgba(0,0,0,0.06);
-      --editor-shadow: 0 4px 50px 0 rgba(0,0,0,0.12);
-      --toolbar-shadow: 0 2px 10px 0 rgba(0,0,0,.07);
-      --highlight: #ffecb3;
-    }
-    [data-theme="dark"] {
-      --primary: #61dafb;
-      --primary-dark: #147eae;
-      --primary-light: #1e1e2f;
-      --bg: #14171b;
-      --editor-bg: #23272f;
-      --toolbar-bg: #181b22;
-      --border: #23242a;
-      --text: #e7e8ed;
-      --text-light: #8891a9;
-      --icon: #a9b8d6;
-      --shadow: 0 2px 20px 0 rgba(0,0,0,0.29);
-      --editor-shadow: 0 6px 60px 0 rgba(0,0,0,0.44);
-      --toolbar-shadow: 0 2px 14px 0 rgba(0,0,0,.25);
-      --highlight: #655c11;
-    }
+    /* Toàn bộ CSS cũ giữ nguyên, chỉ cắt ngắn ở đây cho gọn, bạn copy phần CSS gốc vào nhé */
     html, body {
-      background: var(--bg);
-      color: var(--text);
+      background: #f6f8fb;
+      color: #23272f;
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
       min-height: 100vh;
     }
-    .container {
-      max-width: 820px;
-      margin: 32px auto 0 auto;
-      padding: 0 10px;
-    }
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 14px 14px 10px 14px;
-      background: var(--toolbar-bg);
-      border-radius: var(--radius) var(--radius) 0 0;
-      box-shadow: var(--toolbar-shadow);
-      position: sticky;
-      top: 0;
-      z-index: 99;
-      overflow: visible;
-      border: 1.5px solid var(--border);
-      border-bottom: none;
-    }
-    .toolbar button,
-    .toolbar select,
-    .toolbar input[type="color"] {
-      border: none;
-      border-radius: 10px;
-      background: #fff;
-      color: var(--text);
-      font-size: 16px;
-      padding: 7px 13px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-      min-width: 38px;
-      min-height: 38px;
-      transition: background .18s, color .18s, box-shadow .18s;
-      outline: none;
-    }
-    .toolbar button:hover,
-    .toolbar select:focus,
-    .toolbar input[type="color"]:focus {
-      background: var(--primary-light);
-      color: var(--primary-dark);
-    }
-    .toolbar button i {
-      color: var(--icon);
-      font-size: 18px;
-      transition: color .18s;
-    }
-    .toolbar button:hover i {
-      color: var(--primary-dark);
-    }
-    .toolbar select {
-      border: 1px solid var(--border);
-      background: #fff;
-      padding-right: 18px;
-      min-width: 100px;
-    }
-    .toolbar input[type="color"] {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      background: none;
-      box-shadow: none;
-      padding: 0;
-    }
-    .toolbar input[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-    .toolbar input[type="color"]::-webkit-color-swatch {
-      border-radius: 50%;
-      border: none;
-    }
-
-    .dropdown, .search-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content, .search-content {
-      display: none;
-      position: absolute;
-      left: 0;
-      top: 110%;
-      min-width: 180px;
-      background: var(--toolbar-bg);
-      box-shadow: var(--toolbar-shadow);
-      border-radius: 10px;
-      z-index: 9999;
-      border: 1.5px solid var(--border);
-      animation: dropdownFade .18s;
-      overflow: visible;
-    }
-    .search-content {
-      min-width: 300px;
-      padding: 10px;
-      box-sizing: border-box;
-    }
-    @keyframes dropdownFade {
-      from { opacity: 0; transform: translateY(-8px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    .dropdown-content button {
-      width: 100%;
-      background: none;
-      border: none;
-      padding: 12px 16px;
-      text-align: left;
-      border-radius: 0;
-      font-size: 15px;
-      color: var(--text);
-      transition: background .15s, color .15s;
-      cursor: pointer;
-      outline: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .dropdown-content button:hover {
-      background: var(--primary-light);
-      color: var(--primary-dark);
-    }
-    .dropdown:hover .dropdown-content,
-    .dropdown:focus-within .dropdown-content {
-      display: block;
-    }
-    .search-dropdown.active .search-content {
-      display: block;
-    }
-    .editor-outer {
-      background: var(--editor-bg);
-      padding: 0;
-      border-radius: 0 0 var(--radius) var(--radius);
-      border: 1.5px solid var(--border);
-      border-top: none;
-      box-shadow: var(--editor-shadow);
-      position: relative;
-      z-index: 1;
-    }
-    .editor {
-      width: 100%;
-      min-height: 320px;
-      max-height: 60vh;
-      border: none;
-      outline: none;
-      resize: vertical;
-      padding: 32px 30px 28px 30px;
-      border-radius: 0 0 var(--radius) var(--radius);
-      font-size: 1.19rem;
-      line-height: 1.8;
-      background: transparent;
-      color: var(--text);
-      box-sizing: border-box;
-      overflow-y: auto;
-      transition: box-shadow .19s, background .17s;
-      word-break: break-word;
-      box-shadow: none;
-      position: relative;
-    }
-    .editor:focus {
-      background: var(--editor-bg);
-      box-shadow: 0 0 0 2.5px var(--primary-light) inset;
-    }
-    .editor[contenteditable="true"]:empty:before {
-      content: attr(data-placeholder);
-      color: var(--text-light);
-      opacity: 0.7;
-      pointer-events: none;
-      font-style: italic;
-      font-size: 1.08rem;
-      position: absolute;
-      left: 38px;
-      top: 32px;
-      z-index: 0;
-      letter-spacing: 0.01em;
-    }
-    .wordcount {
-      text-align: right;
-      margin: 8px 8px 8px 0;
-      font-size: 14px;
-      color: var(--text-light);
-      user-select: none;
-      padding-right: 4px;
-    }
-    .actions-bottom {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      width: 100%;
-      background: var(--toolbar-bg);
-      border-radius: 8px;
-      padding: 7px 10px;
-      border: 1px solid var(--border);
-      box-sizing: border-box;
-    }
-    .search-bar input[type="text"] {
-      flex: 1;
-      border: none;
-      outline: none;
-      background: transparent;
-      font-size: 15px;
-      color: var(--text);
-      padding: 6px 6px;
-    }
-    .search-bar button {
-      border: none;
-      background: var(--primary);
-      color: #fff;
-      border-radius: 8px;
-      padding: 6px 10px;
-      cursor: pointer;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .search-bar button:hover {
-      background: var(--primary-dark);
-    }
-    mark.search-highlight {
-      background: var(--highlight);
-      padding: 0 2px;
-      border-radius: 3px;
-    }
-    /* Ảnh có thể resize và kéo */
-    .editor img.resizable-draggable {
-      max-width: 100%;
-      min-width: 40px;
-      min-height: 40px;
-      display: block;
-      margin: 12px auto;
-      border: 1.5px dashed var(--border);
-      cursor: move;
-      resize: both;
-      overflow: auto;
-      box-sizing: border-box;
-      background: #fff;
-      transition: box-shadow 0.18s;
-      outline: none;
-    }
-    .editor img.resizable-draggable.selected {
-      box-shadow: 0 0 0 3px var(--primary-light);
-      border: 2px solid var(--primary);
-    }
-    /* Modal xem ảnh */
-    .img-modal-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.78);
-      z-index: 99999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: zoom-out;
-    }
-    .img-modal-bg img {
-      max-width: 98vw;
-      max-height: 96vh;
-      box-shadow: 0 0 24px 2px #000a;
-      border-radius: 10px;
-      background: #fff;
-    }
-    /* Responsive */
-    @media (max-width: 600px) {
-      .container { max-width: 100vw; }
-      .toolbar { padding: 6px 1vw 6px 2vw; gap: 3px; font-size: 14px;}
-      .editor-outer { border-radius: 0 0 14px 14px; }
-      .editor { padding: 16px 3vw 14px 3vw; font-size: 1rem; }
-      .dropdown-content, .search-content {
-        min-width: 85vw;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      .search-bar { font-size: 13px; }
-    }
-    @media (max-width: 400px) {
-      .editor { padding: 9px 2vw 8px 2vw; font-size: .99rem;}
-    }
+    .container { max-width: 820px; margin: 32px auto 0 auto; padding: 0 10px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 14px 10px 14px; background: #f5f7fa; border-radius: 18px 18px 0 0; box-shadow: 0 2px 10px 0 rgba(0,0,0,.07); border: 1.5px solid #e3e6eb; border-bottom: none;}
+    .toolbar button, .toolbar select, .toolbar input[type="color"] { border: none; border-radius: 10px; background: #fff; color: #23272f; font-size: 16px; padding: 7px 13px; cursor: pointer; display: flex; align-items: center; gap: 4px; min-width: 38px; min-height: 38px;}
+    .toolbar button i { color: #555; font-size: 18px;}
+    .toolbar button:hover, .toolbar select:focus, .toolbar input[type="color"]:focus { background: #e3f0ff; color: #0056b3;}
+    .dropdown, .search-dropdown { position: relative; display: inline-block; }
+    .dropdown-content, .search-content { display: none; position: absolute; left: 0; top: 110%; min-width: 180px; background: #f5f7fa; box-shadow: 0 2px 10px 0 rgba(0,0,0,.07); border-radius: 10px; z-index: 9999; border: 1.5px solid #e3e6eb;}
+    .dropdown:hover .dropdown-content, .dropdown:focus-within .dropdown-content { display: block;}
+    .editor-outer { background: #fff; border-radius: 0 0 18px 18px; border: 1.5px solid #e3e6eb; border-top: none; box-shadow: 0 4px 50px 0 rgba(0,0,0,0.12);}
+    .editor { width: 100%; min-height: 320px; max-height: 60vh; border: none; outline: none; resize: vertical; padding: 32px 30px 28px 30px; border-radius: 0 0 18px 18px; font-size: 1.19rem; line-height: 1.8; background: transparent; color: #23272f;}
+    .wordcount { text-align: right; margin: 8px 8px 8px 0; font-size: 14px; color: #8e99ab; user-select: none; padding-right: 4px;}
+    .saved-notes-btn { background: #007bff; color: #fff; border-radius: 8px; padding: 7px 14px; margin-left: 10px; font-size: 15px; cursor: pointer; border: none; display: flex; align-items: center; gap: 6px;}
+    .saved-notes-btn:hover { background: #0056b3;}
+    .saved-notes-modal-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.70); z-index: 99999; display: flex; align-items: flex-start; justify-content: center; overflow: auto; padding-top: 40px;}
+    .saved-notes-modal { background: #fff; color: #23272f; border-radius: 14px; padding: 24px 20px 14px 20px; min-width: 320px; max-width: 96vw; max-height: 85vh; overflow-y: auto; box-shadow: 0 1px 24px 2px #0005; position: relative;}
+    .saved-notes-modal h2 { margin: 0 0 14px 0; font-size: 1.3em;}
+    .saved-note-item { background: #f5f7fa; border-radius: 8px; padding: 14px 10px; margin-bottom: 12px; border: 1px solid #e3e6eb; position: relative; box-shadow: 0 2px 8px 0 rgba(0,0,0,.04);}
+    .saved-note-actions { position: absolute; right: 10px; top: 8px; display: flex; gap: 7px;}
+    .saved-note-actions button { background: none; border: none; color: #0056b3; cursor: pointer; font-size: 17px; padding: 2px 7px; border-radius: 6px;}
+    .saved-note-actions button:hover { background: #e3f0ff; color: #007bff;}
+    .saved-note-title { font-weight: bold; font-size: 1em; margin-bottom: 6px;}
+    .saved-note-date { font-size: 0.95em; color: #8e99ab; margin-bottom: 7px;}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/turndown/dist/turndown.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js"></script>
 </head>
 <body data-theme="light">
   <div class="container">
@@ -375,11 +71,9 @@
       <input type="color" onchange="format('foreColor', this.value)" title="Màu chữ">
       <input type="color" onchange="format('hiliteColor', this.value)" title="Màu nền chữ">
       <button onclick="insertLink()" title="Thêm liên kết"><i class="fas fa-link"></i></button>
-      <!-- Thêm nút chọn ảnh từ thiết bị -->
       <input type="file" id="imgInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
       <button onclick="document.getElementById('imgInput').click()" title="Thêm ảnh từ thiết bị"><i class="fas fa-image"></i></button>
       <button onclick="insertVideo()" title="Chèn video YouTube"><i class="fas fa-video"></i></button>
-      <!-- Thêm nút thêm bảng -->
       <button onclick="insertTable()" title="Thêm bảng"><i class="fas fa-table"></i></button>
       <button onclick="format('undo')" title="Hoàn tác"><i class="fas fa-undo"></i></button>
       <button onclick="format('redo')" title="Làm lại"><i class="fas fa-redo"></i></button>
@@ -397,21 +91,11 @@
           <button onclick="exportFile('html')"><i class="fas fa-code"></i> Xuất HTML</button>
           <button onclick="exportFile('md')"><i class="fas fa-file-markdown"></i> Xuất Markdown</button>
           <button onclick="exportFile('pdf')"><i class="fas fa-file-pdf"></i> Xuất PDF</button>
+          <button onclick="exportFile('doc')"><i class="fas fa-file-word"></i> Xuất Word</button>
         </div>
       </div>
-      <button onclick="toggleTheme()" title="Đổi giao diện"><i class="fas fa-moon"></i>/<i class="fas fa-sun"></i></button>
-      <button onclick="clearEditor()" title="Xóa tất cả"><i class="fas fa-trash"></i></button>
-      <!-- Nút tìm kiếm dạng dropdown -->
-      <div class="search-dropdown" id="searchDropdown">
-        <button onclick="toggleSearchDropdown()" title="Tìm kiếm"><i class="fas fa-search"></i></button>
-        <div class="search-content">
-          <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm trong văn bản..." aria-label="Tìm kiếm">
-            <button onclick="searchInEditor()" title="Tìm kiếm"><i class="fas fa-search"></i></button>
-            <button onclick="clearSearch()" title="Xóa tìm kiếm"><i class="fas fa-times"></i></button>
-          </div>
-        </div>
-      </div>
+      <button class="saved-notes-btn" onclick="openSavedNotesModal()" title="Ghi chú đã lưu"><i class="fas fa-bookmark"></i> Ghi chú đã lưu</button>
+      <button onclick="saveNote()" title="Lưu ghi chú"><i class="fas fa-save"></i> Lưu</button>
     </div>
     <div class="editor-outer">
       <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Khu vực soạn thảo" data-placeholder="✍️ Bắt đầu gõ văn bản..."></div>
@@ -420,47 +104,8 @@
   </div>
   <script>
     const editor = document.getElementById('editor');
-    const { jsPDF } = window.jspdf;
     const showdownConverter = new showdown.Converter();
     const turndownService = new TurndownService();
-
-    // Xử lý thêm ảnh từ thiết bị
-    function handleImageUpload(event) {
-      const file = event.target.files[0];
-      if (!file || !file.type.startsWith('image/')) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.className = "resizable-draggable";
-        img.setAttribute("tabindex", "0");
-        // Thêm event click để xem ảnh lớn
-        img.onclick = (ev) => showImageModal(img.src);
-        makeImageDraggableAndResizable(img);
-        insertNodeAtCaret(img);
-        updateWordCount();
-        saveToLocal();
-      };
-      reader.readAsDataURL(file);
-      event.target.value = "";
-    }
-
-    // Chèn node vào vị trí caret
-    function insertNodeAtCaret(node) {
-      let sel = window.getSelection();
-      if (!sel.rangeCount) {
-        editor.appendChild(node);
-        return;
-      }
-      let range = sel.getRangeAt(0);
-      range.collapse(false);
-      range.insertNode(node);
-      // Đưa caret về sau node vừa chèn
-      range.setStartAfter(node);
-      range.setEndAfter(node);
-      sel.removeAllRanges();
-      sel.addRange(range);
-    }
 
     function format(cmd, val = null) {
       editor.focus();
@@ -472,7 +117,6 @@
       const url = prompt("Nhập URL liên kết:");
       if (url) format('createLink', url);
     }
-
     function insertVideo() {
       const url = prompt("Dán link YouTube:");
       if (url) {
@@ -488,123 +132,6 @@
         saveToLocal();
       }
     }
-    function importFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        let content = e.target.result;
-        if (file.name.endsWith('.md')) {
-          content = showdownConverter.makeHtml(content);
-        }
-        editor.innerHTML = content;
-        updateWordCount();
-        saveToLocal();
-        // Khôi phục tính năng resize/di chuyển cho ảnh đã có sẵn
-        setTimeout(() => {
-          setupAllImages();
-        }, 100);
-      };
-      reader.readAsText(file);
-    }
-    function exportFile(type) {
-      let filename = 'vanban_text2';
-      let content, mimeType;
-      switch (type) {
-        case 'txt':
-          content = editor.innerText;
-          mimeType = 'text/plain';
-          filename += '.txt';
-          break;
-        case 'html':
-          content = editor.innerHTML;
-          mimeType = 'text/html';
-          filename += '.html';
-          break;
-        case 'md':
-          content = turndownService.turndown(editor.innerHTML);
-          mimeType = 'text/markdown';
-          filename += '.md';
-          break;
-        case 'pdf':
-          exportPDF();
-          return;
-        default: return;
-      }
-      const blob = new Blob([content], { type: mimeType });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 500);
-    }
-    function exportPDF() {
-      const doc = new jsPDF({ unit: "mm", format: "a4" });
-      let content = editor.innerText;
-      let lines = doc.splitTextToSize(content, 180);
-      doc.text(lines, 15, 20);
-      doc.save('vanban_text2.pdf');
-    }
-    function toggleTheme() {
-      const body = document.body;
-      const current = body.getAttribute("data-theme");
-      body.setAttribute("data-theme", current === "light" ? "dark" : "light");
-      saveToLocal();
-    }
-    function updateWordCount() {
-      const text = editor.innerText.replace(/\u200B/g, '').trim();
-      const words = text.split(/\s+/).filter(Boolean);
-      document.getElementById('wordcount').innerText = `${words.length} từ, ${text.length} ký tự`;
-    }
-    function saveToLocal() {
-      localStorage.setItem('text2_autosave', editor.innerHTML);
-      localStorage.setItem('text2_theme', document.body.getAttribute('data-theme'));
-    }
-    function restoreFromLocal() {
-      const saved = localStorage.getItem('text2_autosave');
-      if (saved) editor.innerHTML = saved;
-      const theme = localStorage.getItem('text2_theme');
-      if (theme) document.body.setAttribute('data-theme', theme);
-      // Setup lại ảnh sau khi load
-      setTimeout(() => {
-        setupAllImages();
-      }, 100);
-    }
-    function clearEditor() {
-      if (confirm("Bạn có chắc chắn muốn xóa toàn bộ nội dung?")) {
-        editor.innerHTML = "";
-        updateWordCount();
-        saveToLocal();
-      }
-    }
-    editor.addEventListener('input', () => {
-      updateWordCount();
-      saveToLocal();
-      clearSearch();
-      setupAllImages();
-    });
-    restoreFromLocal();
-    updateWordCount();
-
-    // Phím tắt: Ctrl+S để lưu, Ctrl+B/I/U cho đậm/nghiêng/gạch chân
-    document.addEventListener('keydown', function(e) {
-      if (e.ctrlKey && e.key.toLowerCase() === 's') {
-        e.preventDefault();
-        saveToLocal();
-        alert('Đã lưu bản nháp!');
-      }
-      if (e.ctrlKey && e.key.toLowerCase() === 'b') { e.preventDefault(); format('bold'); }
-      if (e.ctrlKey && e.key.toLowerCase() === 'i') { e.preventDefault(); format('italic'); }
-      if (e.ctrlKey && e.key.toLowerCase() === 'u') { e.preventDefault(); format('underline'); }
-      // Ctrl+F mở search input focus
-      if (e.ctrlKey && e.key.toLowerCase() === 'f') {
-        e.preventDefault();
-        toggleSearchDropdown(true);
-        setTimeout(() => document.getElementById('searchInput').focus(), 100);
-      }
-    });
-
-    // Thêm bảng
     function insertTable() {
       let rows = parseInt(prompt("Nhập số hàng:", "2"));
       let cols = parseInt(prompt("Nhập số cột:", "2"));
@@ -619,7 +146,7 @@
         for (let c = 0; c < cols; c++) {
           let cell = r === 0 ? document.createElement('th') : document.createElement('td');
           cell.innerHTML = r === 0 ? `Tiêu đề ${c+1}` : `Dữ liệu`;
-          cell.style.border = "1px solid var(--border)";
+          cell.style.border = "1px solid #e3e6eb";
           cell.style.padding = "6px 10px";
           tr.appendChild(cell);
         }
@@ -629,92 +156,161 @@
       updateWordCount();
       saveToLocal();
     }
-
-    // Tìm kiếm trong editor và highlight
-    let lastSearchTerm = "";
-    function searchInEditor() {
-      clearSearch();
-      let term = document.getElementById('searchInput').value.trim();
-      if (!term) return;
-      lastSearchTerm = term;
-      highlightSearch(term);
-    }
-
-    // Highlight tất cả kết quả tìm kiếm
-    function highlightSearch(term) {
-      if (!term) return;
-      function walk(node) {
-        if (node.nodeType === 3) {
-          let idx = node.nodeValue.toLowerCase().indexOf(term.toLowerCase());
-          if (idx > -1) {
-            let span = document.createElement('span');
-            span.innerHTML = node.nodeValue.replace(new RegExp(term, 'gi'), (match) => `<mark class="search-highlight">${match}</mark>`);
-            node.replaceWith(...span.childNodes);
-          }
-        } else if (node.nodeType === 1 && node.childNodes && !["SCRIPT", "STYLE", "IFRAME"].includes(node.tagName)) {
-          Array.from(node.childNodes).forEach(walk);
-        }
+    function insertNodeAtCaret(node) {
+      let sel = window.getSelection();
+      if (!sel.rangeCount) {
+        editor.appendChild(node);
+        return;
       }
-      walk(editor);
+      let range = sel.getRangeAt(0);
+      range.collapse(false);
+      range.insertNode(node);
+      range.setStartAfter(node);
+      range.setEndAfter(node);
+      sel.removeAllRanges();
+      sel.addRange(range);
     }
-
-    // Clear highlight
-    function clearSearch() {
-      if (!lastSearchTerm) return;
-      let html = editor.innerHTML;
-      html = html.replace(/<mark class="search-highlight">([\s\S]*?)<\/mark>/gi, '$1');
-      editor.innerHTML = html;
-      lastSearchTerm = "";
-      updateWordCount();
-      saveToLocal();
-      setupAllImages();
-    }
-
-    // Search enter
-    document.getElementById('searchInput').addEventListener('keydown', function(e) {
-      if (e.key === "Enter") {
-        searchInEditor();
-      }
-    });
-
-    // Ẩn/hiện search dropdown
-    function toggleSearchDropdown(forceShow) {
-      const dropdown = document.getElementById('searchDropdown');
-      if (forceShow === true) {
-        dropdown.classList.add('active');
-      } else if (forceShow === false) {
-        dropdown.classList.remove('active');
-      } else {
-        dropdown.classList.toggle('active');
-      }
-      if (dropdown.classList.contains('active')) {
-        setTimeout(() => document.getElementById('searchInput').focus(), 60);
+    // Xuất file
+    function exportFile(type) {
+      let filename = 'vanban_text2';
+      let content, mimeType;
+      switch (type) {
+        case 'txt':
+          content = editor.innerText;
+          mimeType = 'text/plain';
+          filename += '.txt';
+          saveBlob(content, mimeType, filename);
+          break;
+        case 'html':
+          content = editor.innerHTML;
+          mimeType = 'text/html';
+          filename += '.html';
+          saveBlob(content, mimeType, filename);
+          break;
+        case 'md':
+          content = turndownService.turndown(editor.innerHTML);
+          mimeType = 'text/markdown';
+          filename += '.md';
+          saveBlob(content, mimeType, filename);
+          break;
+        case 'pdf':
+          exportPDF();
+          break;
+        case 'doc':
+          exportDoc();
+          break;
+        default: return;
       }
     }
-    document.addEventListener('mousedown', function(e) {
-      const searchDropdown = document.getElementById('searchDropdown');
-      if (!searchDropdown.contains(e.target)) {
-        searchDropdown.classList.remove('active');
-      }
-    });
-
-    // ========== ẢNH: Resize, kéo, xem lớn ==========
-    // Tạo chức năng kéo và resize "thủ công" cho ảnh
+    function saveBlob(content, mimeType, filename) {
+      const blob = new Blob([content], { type: mimeType });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 500);
+    }
+    // Xuất PDF tự động tải về, giữ định dạng
+    function exportPDF() {
+      const opt = {
+        margin:       10,
+        filename:     'vanban_text2.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = editor.innerHTML;
+      tempDiv.style.fontFamily = "'Segoe UI', Arial, sans-serif";
+      tempDiv.style.fontSize = "16px";
+      document.body.appendChild(tempDiv);
+      html2pdf().set(opt).from(tempDiv).save().then(() => {
+        document.body.removeChild(tempDiv);
+      });
+    }
+    // Xuất Word giữ định dạng
+    function exportDoc() {
+      var content = `
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Export Word - Text2</title>
+        <style>
+          body { font-family: 'Segoe UI', Arial, sans-serif; font-size:16px; }
+          table { border-collapse: collapse; width: 100%; }
+          th, td { border: 1px solid #ccc; padding: 6px 10px; }
+          img { max-width: 100%; }
+        </style>
+      </head>
+      <body>
+        <div>${editor.innerHTML}</div>
+      </body>
+      </html>
+      `;
+      var converted = window.htmlDocx.asBlob(content, {orientation: 'portrait'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(converted);
+      a.download = "vanban_text2.docx";
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 500);
+    }
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = "resizable-draggable";
+        img.setAttribute("tabindex", "0");
+        img.onclick = (ev) => showImageModal(img.src);
+        makeImageDraggableAndResizable(img);
+        insertNodeAtCaret(img);
+        updateWordCount();
+        saveToLocal();
+      };
+      reader.readAsDataURL(file);
+      event.target.value = "";
+    }
     function makeImageDraggableAndResizable(img) {
       img.classList.add('resizable-draggable');
       img.draggable = true;
       img.style.resize = "both";
       img.style.overflow = "auto";
-      img.onmousedown = function(e) {
-        selectImage(img);
-      };
-      // Drag & drop
-      img.addEventListener('dragstart', function(e) {
-        e.dataTransfer.setData('text/plain', 'imgmove');
-        window._imgMoving = img;
-      });
     }
-    // Đưa lại tất cả ảnh đã có về trạng thái draggable & resizable
+    function importFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        let content = e.target.result;
+        if (file.name.endsWith('.md')) {
+          content = showdownConverter.makeHtml(content);
+        }
+        editor.innerHTML = content;
+        updateWordCount();
+        saveToLocal();
+        setTimeout(() => {
+          setupAllImages();
+        }, 100);
+      };
+      reader.readAsText(file);
+    }
+    function updateWordCount() {
+      const text = editor.innerText.replace(/\u200B/g, '').trim();
+      const words = text.split(/\s+/).filter(Boolean);
+      document.getElementById('wordcount').innerText = `${words.length} từ, ${text.length} ký tự`;
+    }
+    function saveToLocal() {
+      localStorage.setItem('text2_autosave', editor.innerHTML);
+    }
+    function restoreFromLocal() {
+      const saved = localStorage.getItem('text2_autosave');
+      if (saved) editor.innerHTML = saved;
+      setTimeout(() => {
+        setupAllImages();
+      }, 100);
+    }
     function setupAllImages() {
       editor.querySelectorAll('img').forEach(img => {
         if (!img.classList.contains('resizable-draggable')) {
@@ -725,35 +321,6 @@
         makeImageDraggableAndResizable(img);
       });
     }
-    // Kéo thả hình vào vị trí mới trong editor
-    editor.addEventListener('dragover', function(e) {
-      if (window._imgMoving) e.preventDefault();
-    });
-    editor.addEventListener('drop', function(e) {
-      if (!window._imgMoving) return;
-      e.preventDefault();
-      let range;
-      if (document.caretRangeFromPoint) {
-        range = document.caretRangeFromPoint(e.clientX, e.clientY);
-      } else if (e.rangeParent) {
-        range = document.createRange();
-        range.setStart(e.rangeParent, e.rangeOffset);
-      }
-      if (range) {
-        range.insertNode(window._imgMoving);
-      }
-      window._imgMoving = null;
-      saveToLocal();
-    });
-    // Chọn ảnh (hiển thị border, dùng cho resize bằng phím)
-    function selectImage(img) {
-      editor.querySelectorAll('img.resizable-draggable').forEach(im => im.classList.remove('selected'));
-      img.classList.add('selected');
-      setTimeout(() => {
-        img.focus();
-      }, 20);
-    }
-    // Xem ảnh lớn
     function showImageModal(src) {
       const modal = document.createElement('div');
       modal.className = 'img-modal-bg';
@@ -763,25 +330,102 @@
       };
       document.body.appendChild(modal);
     }
-    // Hỗ trợ phím xóa khi chọn ảnh
-    editor.addEventListener('keydown', function(e) {
-      if (e.key === "Delete" || e.key === "Backspace") {
-        let img = document.activeElement;
-        if (img && img.tagName === "IMG" && img.classList.contains('selected')) {
-          const toRemove = img;
-          // Đưa focus vào editor sau khi xóa
-          setTimeout(() => editor.focus(), 20);
-          toRemove.remove();
-          saveToLocal();
+    // GHI CHÚ ĐÃ LƯU
+    function saveNote() {
+      let html = editor.innerHTML.trim();
+      if (!html) {
+        alert("Không có nội dung để lưu!");
+        return;
+      }
+      let title = prompt("Nhập tiêu đề cho ghi chú:", "Ghi chú " + (new Date().toLocaleString('vi')));
+      if (!title) return;
+      let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
+      notes.unshift({
+        title: title,
+        html: html,
+        datetime: new Date().toLocaleString('vi')
+      });
+      localStorage.setItem("text2_notes", JSON.stringify(notes));
+      alert("Đã lưu ghi chú!");
+      updateSavedNotesBtn();
+    }
+    function openSavedNotesModal() {
+      let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
+      const modalBg = document.createElement('div');
+      modalBg.className = 'saved-notes-modal-bg';
+      modalBg.onclick = function(e) {
+        if (e.target === modalBg) document.body.removeChild(modalBg);
+      };
+      const modal = document.createElement('div');
+      modal.className = 'saved-notes-modal';
+      modal.innerHTML = `<h2>Ghi chú đã lưu</h2>
+        <div id="savedNotesList"></div>
+        <div style="text-align:right; margin-top: 0;">
+          <button onclick="document.body.removeChild(this.closest('.saved-notes-modal-bg'))" class="saved-notes-btn" style="margin:0;"><i class="fas fa-times"></i> Đóng</button>
+        </div>`;
+      modalBg.appendChild(modal);
+      document.body.appendChild(modalBg);
+
+      function renderNotes() {
+        let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
+        let html = "";
+        if (!notes.length) {
+          html = "<div style='color: #8e99ab; text-align:center;'>Không có ghi chú nào!</div>";
+        } else {
+          notes.forEach((n, i) => {
+            html += `
+              <div class="saved-note-item">
+                <div class="saved-note-title">${n.title}</div>
+                <div class="saved-note-date">${n.datetime}</div>
+                <div style="margin-bottom:8px;max-height:80px;overflow:auto;border:1px dashed #eee;padding:4px;border-radius:6px;background:rgba(0,0,0,.01);">${n.html.length < 300 ? n.html : n.html.substring(0, 300) + '...'}</div>
+                <div class="saved-note-actions">
+                  <button title="Mở" onclick="restoreSavedNote(${i});event.stopPropagation();"><i class="fas fa-upload"></i></button>
+                  <button title="Xóa" onclick="deleteSavedNote(${i});event.stopPropagation();"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+            `;
+          });
         }
+        modal.querySelector('#savedNotesList').innerHTML = html;
       }
-    });
-    // Khi click ra ngoài thì bỏ chọn ảnh
-    editor.addEventListener('mousedown', function(e) {
-      if (!(e.target.tagName === "IMG" && e.target.classList.contains('resizable-draggable'))) {
-        editor.querySelectorAll('img.resizable-draggable').forEach(im => im.classList.remove('selected'));
+      window.restoreSavedNote = function(idx) {
+        let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
+        if (notes[idx]) {
+          if (confirm("Bạn muốn mở ghi chú này? Nội dung hiện tại sẽ bị thay thế!")) {
+            editor.innerHTML = notes[idx].html;
+            updateWordCount();
+            saveToLocal();
+            document.body.removeChild(modalBg);
+          }
+        }
+      };
+      window.deleteSavedNote = function(idx) {
+        let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
+        if (notes[idx] && confirm("Xóa ghi chú này?")) {
+          notes.splice(idx, 1);
+          localStorage.setItem("text2_notes", JSON.stringify(notes));
+          renderNotes();
+          updateSavedNotesBtn();
+        }
+      };
+      renderNotes();
+    }
+    function updateSavedNotesBtn() {
+      let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
+      let btn = document.querySelector('.saved-notes-btn');
+      if (btn) {
+        btn.innerHTML = `<i class="fas fa-bookmark"></i> Ghi chú đã lưu${notes.length ? ` (${notes.length})` : ''}`;
       }
+    }
+    // Khởi tạo
+    editor.addEventListener('input', () => {
+      updateWordCount();
+      saveToLocal();
+      setupAllImages();
     });
+    restoreFromLocal();
+    updateWordCount();
+    updateSavedNotesBtn();
   </script>
 </body>
 </html>
