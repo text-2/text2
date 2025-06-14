@@ -3,55 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> Create QR Code - text2 </title>
+  <title>QR Code Generator 3D Nhẹ Nhàng</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/p/AF1QipMAH2F9BWWLSU14YABENNfSIUDTinGdHOO3wC-S=s1360-w1360-h1020-rw">
-<!-- Google tag (gtag.js) - GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-6J85STMJ14');
-</script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
   <style>
-    /* Global styles for a sleek, dark theme */
-    * {
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif; /* Primary font */
+    :root {
+      --primary: #406aff;
+      --secondary: #00ffb0;
+      --background: #181c26;
+      --card: #222939;
+      --white: #fff;
     }
-
+    * { box-sizing: border-box; font-family: 'Inter', 'Montserrat', sans-serif; }
     body {
       margin: 0;
-      padding: 0;
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a); /* Subtle dark gradient background */
-      color: #e0e0e0;
+      background: linear-gradient(135deg, #181c26 0%, #406aff 100%);
+      color: var(--white);
       display: flex;
       flex-direction: column;
-      overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+      overflow-x: hidden;
     }
-
-    /* Header - Dynamic & Engaging */
     header {
-      background: linear-gradient(90deg, #1e7e34, #28a745, #3498db); /* More vibrant gradient */
-      padding: 1.2rem 1rem;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Stronger shadow */
-      animation: gradientShift 10s ease infinite alternate; /* Animated gradient */
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      box-shadow: 0 8px 32px 0 #406aff44;
+      padding: 1.4rem 0 1rem 0;
+      z-index: 2;
     }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     .header-content {
       max-width: 1200px;
       margin: 0 auto;
@@ -60,339 +42,237 @@
       align-items: center;
       flex-wrap: wrap;
     }
-
     .logo {
-      color: white;
-      font-family: 'Montserrat', sans-serif; /* Different font for logo */
-      font-size: 1.8rem;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--white);
+      font-size: 2rem;
       font-weight: 700;
-      text-decoration: none;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
-      transition: transform 0.3s ease-in-out;
+      text-shadow: 0 6px 24px var(--primary), 0 2px 8px var(--secondary);
+      letter-spacing: 2px;
+      transition: transform 0.2s;
+      user-select: none;
     }
-
     .logo:hover {
-      transform: scale(1.05) rotate(-2deg); /* Interactive hover effect */
+      transform: scale(1.04) skewY(-2deg);
     }
-
     nav {
       display: flex;
-      gap: 1.5rem; /* Space between nav links */
+      gap: 1.5rem;
+      font-size: 1.08rem;
     }
-
     nav a {
-      color: white;
+      color: var(--white);
       text-decoration: none;
       font-weight: 600;
       position: relative;
-      transition: all 0.3s ease-in-out;
+      padding: 0.4rem 1.1rem;
+      border-radius: 12px;
+      transition: background .22s, color .2s;
     }
-
-    nav a::after { /* Underline effect */
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 3px;
-      bottom: -5px;
-      left: 0;
-      background-color: #a4fba6;
-      transition: width 0.3s ease-in-out;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
     nav a:hover {
-      color: #a4fba6; /* Highlight color on hover */
-      transform: translateY(-2px); /* Slight lift effect */
+      background: rgba(255,255,255,0.10);
+      color: var(--secondary);
     }
-
-    /* Main content area */
     main {
-      max-width: 1200px;
-      margin: 2.5rem auto; /* More margin */
-      padding: 0 1.5rem;
-      flex-grow: 1;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 0;
     }
-
-    /* Card - Elevated & Interactive */
-    .card {
-      background: #1e1e1e;
-      border: 2px solid #28a745;
-      border-radius: 28px; /* More rounded corners */
-      padding: 35px; /* More padding */
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(40, 167, 69, 0.4); /* Deeper shadow with glow */
+    .card-3d {
+      background: var(--card);
+      border-radius: 28px;
+      box-shadow: 0 8px 32px 0 #406aff44, 0 2px 8px 0 #00ffb033;
+      border: 2px solid var(--primary);
+      padding: 50px 38px 38px 38px;
       display: flex;
       flex-direction: column;
-      gap: 20px; /* More space between elements */
-      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      gap: 30px;
+      max-width: 420px;
+      width: 100%;
+      margin: 0 1rem;
+      position: relative;
+      /* 3D effect */
+      transform: rotateY(-8deg) rotateX(5deg);
+      transition: box-shadow .3s, transform .25s;
     }
-
-    .card:hover {
-      transform: translateY(-5px); /* Lift card on hover */
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(40, 167, 69, 0.6); /* Enhanced shadow on hover */
+    .card-3d:hover {
+      box-shadow: 0 16px 54px #406aff77, 0 4px 16px #00ffb077;
+      transform: rotateY(-12deg) rotateX(7deg) scale(1.02);
     }
-
     h1 {
       text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.2rem; /* Larger heading */
-      background: linear-gradient(45deg, #1e7e34, #28a745, #3498db); /* Gradient for heading */
+      font-family: 'Montserrat',sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; /* Text with gradient fill */
-      padding: 16px;
-      border-radius: 18px;
-      margin-bottom: 25px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-      animation: textGradient 5s ease infinite alternate; /* Animated text gradient */
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 6px 24px var(--primary), 0 2px 8px var(--secondary);
+      margin: 0 0 1.1rem 0;
+      letter-spacing: 1.5px;
     }
-
-    @keyframes textGradient {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-
     label {
-      font-weight: 600;
-      margin-top: 10px;
+      color: var(--secondary);
+      font-weight: 700;
+      font-size: 1.09rem;
+      margin-bottom: 6px;
+      letter-spacing: 0.03em;
       display: block;
-      color: #a4fba6;
-      font-size: 1.1rem; /* Slightly larger label text */
     }
-
     textarea {
       width: 100%;
-      padding: 15px; /* More padding */
-      background: #0f0f0f; /* Darker input background */
-      color: #e0e0e0;
-      border: 2px solid #28a745;
-      border-radius: 15px; /* More rounded */
-      margin-top: 8px;
-      transition: all 0.3s ease-in-out;
-      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3); /* Inner shadow */
+      padding: 16px;
+      background: #181c26;
+      color: var(--white);
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      margin-top: 4px;
+      font-size: 1.05rem;
+      box-shadow: 0 2px 6px #00ffb022 inset;
       resize: vertical;
-    }
-
-    textarea:focus {
-      border-color: #3498db; /* Focus color */
-      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(52, 152, 219, 0.5); /* Glow on focus */
       outline: none;
+      transition: border-color .23s, box-shadow .18s;
     }
-
-    /* Button - Glowing & Dynamic */
-    button {
-      background: linear-gradient(45deg, #28a745, #3498db); /* Dynamic gradient for button */
-      color: white;
-      font-weight: bold;
-      padding: 15px 40px; /* More padding */
-      border: none;
-      border-radius: 15px; /* More rounded */
-      cursor: pointer;
-      margin-top: 20px;
-      transition: all 0.4s ease-in-out;
-      box-shadow: 0 6px 15px rgba(40, 167, 69, 0.6), 0 0 20px rgba(52, 152, 219, 0.4); /* Dual shadow */
-      position: relative;
-      overflow: hidden; /* For shine effect */
+    textarea:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 6px 18px var(--secondary), 0 2px 8px var(--primary) inset;
     }
-
-    button:hover {
-      background: linear-gradient(45deg, #3498db, #28a745); /* Reverse gradient on hover */
-      transform: scale(1.08) translateY(-3px); /* Lift and enlarge */
-      box-shadow: 0 8px 20px rgba(40, 167, 69, 0.8), 0 0 30px rgba(52, 152, 219, 0.6); /* Stronger shadow */
-    }
-
-    button::before { /* Shine effect */
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
+    .pickr {
+      margin-top: 7px;
       width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.2);
-      transform: skewX(-20deg);
-      transition: all 0.6s ease;
+      background: transparent;
     }
-
-    button:hover::before {
-      left: 100%;
+    .pickr .pcr-button {
+      height: 44px;
+      width: 100%;
+      border-radius: 12px;
+      border: 2px solid var(--primary);
+      background: #23272a;
+      box-shadow: 0 2px 8px var(--secondary) inset;
+      transition: border-color .18s, box-shadow .15s;
     }
-
+    .pickr .pcr-button:hover, .pickr .pcr-button:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 2px 10px var(--secondary) inset;
+    }
+    .text-center { text-align: center; }
+    button {
+      margin-top: 12px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      color: #fff;
+      font-size: 1.11rem;
+      font-weight: bold;
+      padding: 14px 0;
+      border: none;
+      border-radius: 13px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 18px var(--primary), 0 1.5px 5px var(--secondary);
+      letter-spacing: 1.2px;
+      transition: background .18s, box-shadow .2s, transform .12s;
+      /* 3d effect */
+      transform: rotateX(2deg);
+    }
+    button:hover {
+      background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+      transform: scale(1.04) rotateX(4deg) rotateY(-2deg);
+      box-shadow: 0 10px 32px var(--secondary), 0 3px 12px var(--primary);
+    }
+    #qrcode {
+      margin-top: 13px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    /* 3D effect for QR canvas */
     #qrcode canvas {
-      margin-top: 25px;
-      border-radius: 18px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(40, 167, 69, 0.3); /* Shadow for QR code */
-      max-width: 100%;
-      height: auto;
-      transition: transform 0.3s ease-in-out;
+      border-radius: 14px;
+      box-shadow:
+        0 8px 32px #00ffb044, 0 2px 8px #406aff66,
+        0 0 0 3px #406aff;
+      background: #fff;
+      width: 300px; height: 300px;
+      transform: rotateX(7deg) rotateY(-7deg) scale(1.01);
+      transition: transform .18s, box-shadow .14s;
     }
-
     #qrcode canvas:hover {
-        transform: scale(1.02); /* Slight scale on hover */
+      transform: scale(1.06) rotateX(3deg) rotateY(-3deg);
+      box-shadow: 0 16px 38px #406aff99, 0 8px 24px #00ffb0cc, 0 0 0 6px #00ffb033;
     }
-
     #downloadLink {
       display: inline-block;
-      background: #121212;
-      border: 2px solid #3498db; /* Blue border */
-      color: #3498db;
-      padding: 12px 28px;
+      background: #23272a;
+      border: 2px solid var(--primary);
+      color: var(--secondary);
+      padding: 12px 32px;
       border-radius: 999px;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       margin-top: 25px;
-      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4); /* Blue shadow */
-      transition: all 0.3s ease-in-out;
+      font-size: 1.05rem;
+      letter-spacing: .07em;
+      box-shadow: 0 6px 20px var(--primary), 0 2px 8px var(--secondary);
+      transition: all .18s;
+      position: relative;
+      z-index: 1;
+      /* 3d effect */
+      transform: rotateX(3deg);
     }
-
     #downloadLink:hover {
-      background: #3498db;
-      color: white;
-      transform: translateY(-2px); /* Lift effect */
-      box-shadow: 0 6px 15px rgba(52, 152, 219, 0.6);
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--secondary);
+      transform: scale(1.05) rotateX(5deg) rotateY(-2deg);
+      box-shadow: 0 12px 30px var(--secondary);
     }
-
-    /* Footer - Modern & Subtle */
     footer {
-      background: #1e1e1e;
-      padding: 2.5rem;
-      margin-top: auto;
-      border-top: 2px solid #28a745;
-      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5); /* Shadow for footer */
+      background: linear-gradient(120deg, #23272a 60%, var(--primary) 100%);
+      padding: 2rem 0 1.2rem 0;
+      border-top: 2px solid var(--primary);
+      box-shadow: 0 -4px 24px 0 #406aff22;
       text-align: center;
+      font-size: 1rem;
+      color: var(--secondary);
+      letter-spacing: .03em;
+      font-family: 'Montserrat', sans-serif;
     }
-
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
-      color: #a4fba6;
-      font-size: 0.95rem;
+      color: var(--secondary);
+      font-size: 0.98rem;
     }
-
-    .text-center {
-      text-align: center;
+    /* Responsive */
+    @media (max-width: 900px) {
+      .card-3d {
+        max-width: 95vw;
+        padding: 30px 4vw 24px 4vw;
+      }
+      #qrcode canvas { width: 200px; height: 200px; }
     }
-
-    /* Pickr adjustments - Integrated with new theme */
-    .pickr {
-      margin-top: 8px;
-      width: 100%;
+    @media (max-width: 600px) {
+      .card-3d { padding: 13px 1vw 16px 1vw; }
+      h1 { font-size: 1.08rem; }
+      label { font-size: 1rem; }
+      #downloadLink { padding: 8px 4vw; font-size: 0.95rem; }
+      #qrcode canvas { width: 130px; height: 130px; }
+      nav { gap: 0.8rem; font-size: 0.98rem; }
+      .logo { font-size: 1.1rem; }
+      .footer-content { font-size: 0.93rem; }
     }
-
-    .pickr .pcr-button {
-        height: 45px; /* Slightly taller button */
-        width: 100%;
-        border-radius: 15px; /* More rounded */
-        border: 2px solid #3498db; /* Blue border for Pickr button */
-        background-color: #0f0f0f; /* Darker background */
-        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease-in-out;
-    }
-    
-    .pickr .pcr-button:hover {
-        border-color: #28a745; /* Green border on hover */
-        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(40, 167, 69, 0.5);
-    }
-
-    /* Responsive adjustments for mobile */
-    @media (max-width: 768px) {
-      header {
-        padding: 1rem;
-      }
-      .header-content {
-        flex-direction: column;
-        align-items: center; /* Center items on mobile header */
-        gap: 1rem;
-      }
-
-      .logo {
-        margin-bottom: 0.5rem;
-        font-size: 1.5rem;
-      }
-
-      nav {
-        flex-direction: column; /* Menu links stack vertically */
-        gap: 0.8rem;
-        width: 100%;
-      }
-
-      nav a {
-        margin: 0;
-        padding: 0.5rem 0;
-        text-align: center;
-      }
-
-      main {
-        margin: 2rem auto;
-        padding: 0 1rem;
-      }
-
-      .card {
-        padding: 25px;
-        border-radius: 20px;
-        gap: 15px;
-      }
-
-      h1 {
-        font-size: 1.8rem;
-        padding: 10px;
-        margin-bottom: 15px;
-      }
-
-      label {
-        font-size: 1rem;
-      }
-
-      textarea {
-        padding: 12px;
-        border-radius: 12px;
-      }
-
-      button {
-        padding: 12px 30px;
-        border-radius: 12px;
-        font-size: 1rem;
-        width: 100%; /* Full width button on mobile */
-        margin-top: 15px;
-      }
-
-      #downloadLink {
-        padding: 10px 24px;
-        width: 100%;
-        text-align: center;
-        font-size: 0.95rem;
-        margin-top: 15px;
-      }
-
-      #qrcode canvas {
-        margin-top: 20px;
-        width: 250px; /* Limit QR code size on very small screens */
-        height: 250px;
-      }
-
-      footer {
-        padding: 1.5rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-        .logo {
-            font-size: 1.3rem;
-        }
-        h1 {
-            font-size: 1.5rem;
-        }
-        #qrcode canvas {
-            width: 200px; /* Smaller QR code for tiny screens */
-            height: 200px;
-        }
+    @media (max-width: 420px) {
+      .card-3d { padding: 6px 0vw 10px 0vw; }
+      h1 { font-size: 0.94rem; }
+      nav { gap: 0.3rem; font-size: 0.91rem; }
+      .logo { font-size: 0.81rem; }
+      #downloadLink { font-size: 0.79rem; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="header-content">
-      <a href="/" class="logo">QR Code Generator</a>
+      <a href="/" class="logo">QR Code 3D Nhẹ Nhàng</a>
       <nav>
         <a href="/">Home</a>
         <a href="#about">About</a>
@@ -400,45 +280,37 @@
       </nav>
     </div>
   </header>
-
   <main>
-    <div class="card">
-      <h1>Create QR Code with Custom Colors</h1>
-
-      <label for="textInput">Enter text or link:</label>
-      <textarea id="textInput" rows="4" placeholder="Paste your text or URL here..."></textarea>
-
-      <label for="darkColor">Choose QR code color:</label>
+    <div class="card-3d">
+      <h1>✨ QR Code Generator 3D Nhẹ Nhàng ✨</h1>
+      <label for="textInput">Nhập nội dung hoặc liên kết:</label>
+      <textarea id="textInput" rows="4" placeholder="Dán nội dung hoặc URL của bạn vào đây..."></textarea>
+      <label for="darkColor">Chọn màu mã QR:</label>
       <div id="darkColor"></div>
-
-      <label for="lightColor">Choose background color:</label>
+      <label for="lightColor">Chọn màu nền:</label>
       <div id="lightColor"></div>
-
       <div class="text-center">
-        <button onclick="generateQR()">✨ Create Awesome QR ✨</button>
+        <button onclick="generateQR()">Tạo QR 3D</button>
       </div>
-
       <div id="qrcode" class="text-center"></div>
       <div class="text-center">
-        <a id="downloadLink" style="display:none;" download="awesome-qr-code.png">⬇️ Download Your QR Code</a>
+        <a id="downloadLink" style="display:none;" download="awesome-qr-code.png">⬇️ Tải mã QR của bạn</a>
       </div>
     </div>
   </main>
-
   <footer>
     <div class="footer-content">
-      <p>© 2024 QR Code Generator. Built with 💚 by Hóa Nhật Anh.</p>
+      <p>© 2024 QR Code 3D Nhẹ Nhàng. Làm bởi <span style="color:var(--secondary);font-weight:700;">💚</span> Hóa Nhật Anh.</p>
     </div>
   </footer>
-
   <script>
     // Khởi tạo Pickr cho darkColor và lightColor
     const darkPicker = Pickr.create({
       el: '#darkColor',
       theme: 'classic',
-      default: '#28a745', // Default green
+      default: '#406aff',
       swatches: [
-        '#28a745', '#3498db', '#e74c3c', '#f1c40f', '#9b59b6', '#1abc9c', '#f39c12', '#2c3e50'
+        '#406aff', '#00ffb0', '#ff8e53', '#21262b', '#fff', '#e0e4ea'
       ],
       components: {
         preview: true,
@@ -454,9 +326,9 @@
     const lightPicker = Pickr.create({
       el: '#lightColor',
       theme: 'classic',
-      default: '#121212', // Default dark background
+      default: '#181c26',
       swatches: [
-        '#121212', '#FFFFFF', '#f5f5f5', '#ecf0f1', '#bdc3c7', '#7f8c8d', '#34495e', '#95a5a6'
+        '#181c26', '#f5f5f5', '#ececec', '#fff', '#406aff', '#e0e4ea'
       ],
       components: {
         preview: true,
@@ -477,7 +349,7 @@
       const downloadLink = document.getElementById("downloadLink");
 
       if (!text) {
-        alert("Oops! Bạn chưa nhập gì cả. Vui lòng nhập nội dung hoặc link nha! ✨");
+        alert("Vui lòng nhập nội dung hoặc liên kết để tạo mã QR!");
         return;
       }
 
@@ -493,7 +365,7 @@
       }, function (err, canvas) {
         if (err) {
             console.error(err);
-            alert("Có vẻ đã có lỗi xảy ra khi tạo QR code. Vui lòng thử lại sau nhé!");
+            alert("Có lỗi xảy ra khi tạo QR code. Vui lòng thử lại sau.");
             return;
         }
 
@@ -501,12 +373,9 @@
         const dataURL = canvas.toDataURL("image/png");
         downloadLink.href = dataURL;
         downloadLink.style.display = "inline-block";
-        downloadLink.download = `qr-code-${Date.now()}.png`; // Unique filename
+        downloadLink.download = `qr-3d-${Date.now()}.png`;
       });
     }
   </script>
-</body>
-</html>
-  <script></script>
 </body>
 </html>
