@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thời tiết của bạn | Text2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      text-align: center;
+      padding: 2rem;
+      color: #333;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 18px;
+      background-color: #ffcb05;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .weather {
+      margin-top: 30px;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      display: inline-block;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>🌤️ Thời tiết của bạn</h1>
+  <button onclick="getCurrentLocation()">📍 Xem thời tiết của bạn</button>
+
+  <div class="weather" id="weatherInfo" style="display: none;">
+    <h2 id="location"></h2>
+    <p id="condition"></p>
+    <p id="temperature"></p>
+    <p id="humidity"></p>
+    <p id="wind"></p>
+  </div>
+
+  <script>
+    const apiKey = "7a2aed067014465cbee14230251506";
+
+    function getCurrentLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const coords = `${position.coords.latitude},${position.coords.longitude}`;
+            getWeather(coords);
+          },
+          error => {
+            alert("Không thể truy cập vị trí! Hãy bật GPS hoặc thử lại.");
+          }
+        );
+      } else {
+        alert("Trình duyệt của bạn không hỗ trợ định vị.");
+      }
+    }
+
+    async function getWeather(location) {
+      const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(location)}&lang=vi`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.error) {
+          alert("Không thể lấy dữ liệu thời tiết.");
+          return;
+        }
+
+        document.getElementById("location").textContent = `📍 ${data.location.name}, ${data.location.country}`;
+        document.getElementById("condition").textContent = `🌦️ Trạng thái: ${data.current.condition.text}`;
+        document.getElementById("temperature").textContent = `🌡️ Nhiệt độ: ${data.current.temp_c}°C`;
+        document.getElementById("humidity").textContent = `💧 Độ ẩm: ${data.current.humidity}%`;
+        document.getElementById("wind").textContent = `💨 Gió: ${data.current.wind_kph} km/h`;
+        document.getElementById("weatherInfo").style.display = "block";
+      } catch (error) {
+        alert("Lỗi kết nối API hoặc không có mạng.");
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
