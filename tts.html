@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Text2 - TTS </title>
+      <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/da/7d/ca/da7dca01092dce2a700f8e08785e47e8.jpg">
+<!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6J85STMJ14');
+</script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts for a modern tech look -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+
+  <style>
+    :root {
+      --primary: #00e0ff;
+      --secondary: #222b45;
+      --accent: #1a1f2b;
+      --background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+      --card-bg: rgba(34, 43, 69, 0.95);
+      --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.4);
+      --border-radius: 18px;
+      --glow: 0 0 8px #00e0ff99, 0 0 40px #00e0ff33;
+    }
+
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', 'Arial', sans-serif;
+      background: var(--background);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      animation: fadeIn 1.2s cubic-bezier(.67,.03,.29,.99);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(32px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    .neon-title {
+      font-family: 'Orbitron', 'Roboto', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 2.4rem;
+      color: var(--primary);
+      text-shadow: 0 0 10px #00e0ff, 0 0 40px #00e0ff33;
+      margin: 32px 0 16px;
+      letter-spacing: 2px;
+      text-align: center;
+      animation: neonFlicker 2.4s infinite alternate;
+    }
+
+    @keyframes neonFlicker {
+      from { filter: brightness(1.0);}
+      60% { filter: brightness(1.2);}
+      to { filter: brightness(1.4);}
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 32px 24px 24px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 36px;
+      min-width: 320px;
+      max-width: 420px;
+      width: 90vw;
+      position: relative;
+      backdrop-filter: blur(4px);
+      border: 1.5px solid #00e0ff33;
+      animation: cardPop 1.2s cubic-bezier(.54,.06,.33,1.04);
+    }
+
+    @keyframes cardPop {
+      from {transform: scale(0.98) translateY(24px); opacity: 0;}
+      to {transform: scale(1) translateY(0); opacity: 1;}
+    }
+
+    textarea, select {
+      width: 100%;
+      font-size: 17px;
+      padding: 16px 16px 16px 46px;
+      margin-bottom: 18px;
+      border: none;
+      border-radius: 12px;
+      background: #131929;
+      color: #fff;
+      outline: none;
+      box-shadow: 0 2px 16px #00e0ff11;
+      transition: box-shadow 0.2s, background 0.2s;
+      border-left: 4px solid var(--primary);
+    }
+    textarea:focus, select:focus {
+      background: #191f33;
+      box-shadow: 0 0 0 3px #00e0ff55;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+      font-family: 'Roboto', 'Arial', sans-serif;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 32px;
+      top: 42px;
+      color: #00e0ffcc;
+      font-size: 1.3rem;
+      pointer-events: none;
+      z-index: 2;
+      animation: iconPop 1s cubic-bezier(.54,.06,.33,1.04);
+    }
+    @keyframes iconPop {
+      from {transform: scale(0.7) translateY(16px);}
+      to {transform: scale(1) translateY(0);}
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 14px;
+      margin-bottom: 10px;
+    }
+
+    .neon-btn {
+      background: linear-gradient(90deg, #00e0ff 30%, #3a8dde 100%);
+      color: #fff;
+      font-size: 17px;
+      font-family: 'Orbitron', Arial, sans-serif;
+      font-weight: 600;
+      border: none;
+      border-radius: 9px;
+      padding: 14px 30px;
+      margin: 0 2px;
+      cursor: pointer;
+      box-shadow: var(--glow);
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.18s, box-shadow 0.18s, transform 0.2s;
+      outline: none;
+      z-index: 1;
+    }
+    .neon-btn:hover {
+      background: linear-gradient(90deg, #3a8dde 20%, #00e0ff 100%);
+      filter: brightness(1.2);
+      box-shadow: 0 0 32px #00e0ff88, 0 0 8px #3a8dde99;
+      transform: translateY(-2px) scale(1.03);
+    }
+    .neon-btn:active {
+      filter: brightness(0.96);
+      transform: scale(0.99);
+    }
+    .neon-btn i {
+      margin-right: 9px;
+    }
+
+    .voice-select-anim {
+      animation: selectAnim 2s infinite alternate;
+    }
+    @keyframes selectAnim {
+      from { box-shadow: 0 0 8px #00e0ff22;}
+      to { box-shadow: 0 0 16px #00e0ff88;}
+    }
+
+    .wave-anim {
+      position: absolute;
+      left: -5vw; right: -5vw; top: -60px;
+      height: 110px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .footer {
+      margin: 40px 0 10px 0;
+      color: #aaa;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    /* Animated sound waves */
+    .sound-waves {
+      display: flex;
+      height: 36px;
+      align-items: flex-end;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 14px;
+      margin-bottom: 9px;
+    }
+    .sound-waves span {
+      width: 6px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #00e0ff 60%, #3a8dde 100%);
+      display: inline-block;
+      animation: waveBounce 1.2s infinite;
+      opacity: 0.92;
+    }
+    .sound-waves span:nth-child(1) { animation-delay: 0s;}
+    .sound-waves span:nth-child(2) { animation-delay: 0.18s;}
+    .sound-waves span:nth-child(3) { animation-delay: 0.33s;}
+    .sound-waves span:nth-child(4) { animation-delay: 0.46s;}
+    .sound-waves span:nth-child(5) { animation-delay: 0.65s;}
+    @keyframes waveBounce {
+      0%, 100% { height: 14px;}
+      40% { height: 36px;}
+      60% { height: 22px;}
+      80% { height: 32px;}
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .card {
+        padding: 14vw 2vw 6vw 2vw;
+        min-width: unset;
+        max-width: 97vw;
+      }
+      .neon-title {
+        font-size: 6vw;
+      }
+      .input-icon { left: 13px; top: 23px;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Tech animated wave background -->
+  <svg class="wave-anim" viewBox="0 0 1440 110" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path fill="url(#grad1)" fill-opacity="0.5" d="M0,50 Q360,150 720,50 Q1080,-50 1440,50 V110 H0 V50Z"/>
+    <defs>
+      <linearGradient id="grad1" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#00e0ff"/>
+        <stop offset="1" stop-color="#2c5364"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="neon-title">
+    <i class="fa-solid fa-robot"></i>
+    Text2 - TTS 
+  </div>
+  <div class="card">
+    <div style="position: relative;">
+      <i class="fa-solid fa-keyboard input-icon"></i>
+      <textarea id="textInput" placeholder="Nhập nội dung bạn muốn đọc..."></textarea>
+    </div>
+    <div style="position: relative;">
+      <i class="fa-solid fa-microchip input-icon" style="top: 12px; left: 14px;"></i>
+      <select id="voiceSelect" class="voice-select-anim" style="padding-left:46px;">
+        <option value="vi-VN-Wavenet-A">🇻🇳 Wavenet-A (Nữ)</option>
+        <option value="vi-VN-Wavenet-B">🇻🇳 Wavenet-B (Nam)</option>
+        <option value="vi-VN-Standard-A">🇻🇳 Standard-A (Nữ)</option>
+        <option value="vi-VN-Standard-B">🇻🇳 Standard-B (Nam)</option>
+      </select>
+    </div>
+    <div class="controls">
+      <button class="neon-btn" id="speakBtn">
+        <i class="fa-solid fa-play"></i>Nghe giọng đọc
+      </button>
+      <button class="neon-btn" id="downloadBtn">
+        <i class="fa-solid fa-download"></i>Tải MP3
+      </button>
+    </div>
+    <div class="sound-waves" id="soundWaves" style="visibility:hidden;">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="footer">
+    <i class=""></i> &nbsp;Hiện đại hoá bởi <b>Text2 - TTS Công nghệ 2025</b>
+  </div>
+
+  <script>
+    let lastAudioBase64 = "";
+    let audioObj = null;
+    const speakBtn = document.getElementById("speakBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const soundWaves = document.getElementById("soundWaves");
+    const textInput = document.getElementById("textInput");
+
+    async function callTTS(text, voiceName) {
+      // Cảnh báo: API key public chỉ dùng demo! Bảo vệ key khi dùng thực tế.
+      const apiKey = "AIzaSyDdAvMyZ_ppUNtnsL-eXNH5qU1oKWi2w7s";
+      const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          input: { text },
+          voice: { languageCode: "vi-VN", name: voiceName },
+          audioConfig: { audioEncoding: "MP3" }
+        })
+      });
+      const data = await response.json();
+      if (data.audioContent) {
+        lastAudioBase64 = data.audioContent;
+        return data.audioContent;
+      } else {
+        throw new Error(data.error?.message || "Không rõ nguyên nhân");
+      }
+    }
+
+    function playSoundWave(playing) {
+      soundWaves.style.visibility = playing ? "visible" : "hidden";
+    }
+
+    speakBtn.addEventListener("click", async () => {
+      const text = textInput.value.trim();
+      const voice = document.getElementById("voiceSelect").value;
+      if (!text) {
+        textInput.focus();
+        textInput.style.boxShadow = "0 0 0 2px #ff3366";
+        setTimeout(()=>textInput.style.boxShadow="",700);
+        return;
+      }
+      speakBtn.disabled = true;
+      speakBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tạo...';
+      playSoundWave(true);
+
+      try {
+        const audioBase64 = await callTTS(text, voice);
+        if (audioObj) { audioObj.pause(); audioObj = null; }
+        audioObj = new Audio("data:audio/mp3;base64," + audioBase64);
+        audioObj.onended = () => playSoundWave(false);
+        audioObj.onerror = () => playSoundWave(false);
+        audioObj.play();
+      } catch (err) {
+        alert("Lỗi: " + err.message);
+        playSoundWave(false);
+      } finally {
+        speakBtn.innerHTML = '<i class="fa-solid fa-play"></i>Nghe giọng đọc';
+        speakBtn.disabled = false;
+      }
+    });
+
+    downloadBtn.addEventListener("click", () => {
+      if (!lastAudioBase64) {
+        speakBtn.classList.add("shake");
+        setTimeout(()=>speakBtn.classList.remove("shake"), 500);
+        alert("Bạn cần tạo giọng đọc trước khi tải!");
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = "data:audio/mp3;base64," + lastAudioBase64;
+      link.download = "tts-giọng-đọc.mp3";
+      link.click();
+    });
+
+    // Hiệu ứng shake khi lỗi
+    speakBtn.addEventListener("animationend", () => {
+      speakBtn.classList.remove("shake");
+    });
+    // Tạo hiệu ứng shake bằng CSS động
+    const style = document.createElement('style');
+    style.innerHTML = `
+    .shake { animation: shake 0.4s; }
+    @keyframes shake {
+      0% { transform: translateX(0);}
+      20% { transform: translateX(-10px);}
+      40% { transform: translateX(10px);}
+      60% { transform: translateX(-7px);}
+      80% { transform: translateX(7px);}
+      100% { transform: translateX(0);}
+    }`;
+    document.head.appendChild(style);
+
+    // Nhấn Enter+Ctrl để phát
+    textInput.addEventListener("keydown", e => {
+      if (e.ctrlKey && e.key === "Enter") speakBtn.click();
+    });
+
+    // Hiệu ứng typing trên placeholder
+    const placeholderTexts = [
+      "Nhập nội dung bạn muốn đọc...",
+      "Ví dụ: Xin chào, tôi là trợ lý AI hiện đại.",
+      "Bạn có thể nhập tối đa 5000 ký tự.",
+      "Ctrl + Enter để nghe nhanh!"
+    ];
+    let placeIdx = 0, charIdx = 0, isDel = false;
+    setInterval(() => {
+      let curr = placeholderTexts[placeIdx];
+      if (!isDel) {
+        charIdx++;
+        if (charIdx > curr.length + 6) isDel = true;
+      } else {
+        charIdx--;
+        if (charIdx <= 0) { isDel = false; placeIdx = (placeIdx + 1) % placeholderTexts.length;}
+      }
+      textInput.setAttribute("placeholder", curr.substring(0, charIdx));
+    }, 85);
+
+    // Tự động focus input khi vào trang trên desktop
+    if(window.innerWidth > 800) setTimeout(()=>textInput.focus(), 600);
+  </script>
+</body>
+</html>
