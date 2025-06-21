@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Text2 - TTS </title>
+  <title>Text2 - TTS</title>
       <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/da/7d/ca/da7dca01092dce2a700f8e08785e47e8.jpg">
 <!-- Google tag (gtag.js) - GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
@@ -13,285 +13,294 @@
 
   gtag('config', 'G-6J85STMJ14');
 </script>
-  
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Google Fonts for a modern tech look -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #00e0ff;
-      --secondary: #222b45;
-      --accent: #1a1f2b;
-      --background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
-      --card-bg: rgba(34, 43, 69, 0.95);
-      --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.4);
-      --border-radius: 18px;
-      --glow: 0 0 8px #00e0ff99, 0 0 40px #00e0ff33;
+      --primary: #2563eb;
+      --primary-hover: #1e40af;
+      --background: #f9fafb;
+      --header-bg: #fff;
+      --border: #e5e7eb;
+      --card-bg: #fff;
+      --input-bg: #f3f4f6;
+      --input-border: #d1d5db;
+      --input-focus: #fff;
+      --text-main: #1f2937;
+      --text-sub: #6b7280;
+      --radius: 12px;
+      --shadow: 0 2px 14px 0 rgba(0,0,0,.06);
+      --transition: .16s cubic-bezier(.4,0,.2,1);
     }
-
     html, body {
-      min-height: 100%;
+      background: var(--background);
+      color: var(--text-main);
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 16px;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Roboto', 'Arial', sans-serif;
-      background: var(--background);
-      color: #fff;
-      overflow-x: hidden;
+      min-height: 100%;
     }
-
     body {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      animation: fadeIn 1.2s cubic-bezier(.67,.03,.29,.99);
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(32px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-
-    .neon-title {
-      font-family: 'Orbitron', 'Roboto', Arial, sans-serif;
-      font-weight: 700;
-      font-size: 2.4rem;
-      color: var(--primary);
-      text-shadow: 0 0 10px #00e0ff, 0 0 40px #00e0ff33;
-      margin: 32px 0 16px;
-      letter-spacing: 2px;
-      text-align: center;
-      animation: neonFlicker 2.4s infinite alternate;
-    }
-
-    @keyframes neonFlicker {
-      from { filter: brightness(1.0);}
-      60% { filter: brightness(1.2);}
-      to { filter: brightness(1.4);}
-    }
-
-    .card {
+    .container {
+      width: 100%;
+      max-width: 510px;
+      margin: 48px auto 0 auto;
       background: var(--card-bg);
-      border-radius: var(--border-radius);
-      padding: 32px 24px 24px 24px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
-      margin-bottom: 36px;
-      min-width: 320px;
-      max-width: 420px;
-      width: 90vw;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      min-height: 65vh;
+    }
+    @media (max-width: 650px) {
+      .container {
+        border-radius: 0;
+        margin-top: 0;
+        min-height: 100vh;
+        border-left: none;
+        border-right: none;
+      }
+    }
+    header {
+      background: var(--header-bg);
+      padding: 32px 30px 8px 30px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .logo-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      letter-spacing: 0.2px;
+    }
+    .desc {
+      color: var(--text-sub);
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+    main {
+      flex: 1 0 auto;
+      padding: 36px 30px 10px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: var(--card-bg);
+    }
+    @media (max-width: 600px) {
+      header, main {
+        padding-left: 5vw;
+        padding-right: 5vw;
+      }
+      main { padding-top: 24px; padding-bottom: 4vw;}
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      width: 100%;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
       position: relative;
-      backdrop-filter: blur(4px);
-      border: 1.5px solid #00e0ff33;
-      animation: cardPop 1.2s cubic-bezier(.54,.06,.33,1.04);
+      width: 100%;
     }
-
-    @keyframes cardPop {
-      from {transform: scale(0.98) translateY(24px); opacity: 0;}
-      to {transform: scale(1) translateY(0); opacity: 1;}
+    label {
+      font-size: 1rem;
+      color: var(--text-main);
+      font-weight: 500;
+      margin-bottom: 2px;
+      letter-spacing: 0.1px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      user-select: none;
     }
-
+    label .input-icon {
+      margin-top: 1px;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
     textarea, select {
       width: 100%;
-      font-size: 17px;
-      padding: 16px 16px 16px 46px;
-      margin-bottom: 18px;
-      border: none;
-      border-radius: 12px;
-      background: #131929;
-      color: #fff;
+      font-size: 1rem;
+      padding: 16px 14px 16px 14px;
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius);
+      background: var(--input-bg);
+      color: var(--text-main);
       outline: none;
-      box-shadow: 0 2px 16px #00e0ff11;
-      transition: box-shadow 0.2s, background 0.2s;
-      border-left: 4px solid var(--primary);
+      box-shadow: none;
+      transition: border-color var(--transition), background var(--transition);
+      resize: vertical;
+      margin-bottom: 0;
     }
     textarea:focus, select:focus {
-      background: #191f33;
-      box-shadow: 0 0 0 3px #00e0ff55;
+      background: var(--input-focus);
+      border-color: var(--primary);
     }
-
     textarea {
-      min-height: 140px;
-      resize: vertical;
-      font-family: 'Roboto', 'Arial', sans-serif;
+      min-height: 120px;
+      font-family: inherit;
     }
-
-    .input-icon {
-      position: absolute;
-      left: 32px;
-      top: 42px;
-      color: #00e0ffcc;
-      font-size: 1.3rem;
-      pointer-events: none;
-      z-index: 2;
-      animation: iconPop 1s cubic-bezier(.54,.06,.33,1.04);
-    }
-    @keyframes iconPop {
-      from {transform: scale(0.7) translateY(16px);}
-      to {transform: scale(1) translateY(0);}
-    }
-
     .controls {
       display: flex;
       flex-direction: row;
-      justify-content: center;
-      gap: 18px;
-      margin-top: 14px;
-      margin-bottom: 10px;
+      gap: 16px;
+      justify-content: flex-start;
+      margin-top: 2px;
+      margin-bottom: 0;
     }
-
-    .neon-btn {
-      background: linear-gradient(90deg, #00e0ff 30%, #3a8dde 100%);
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
       color: #fff;
-      font-size: 17px;
-      font-family: 'Orbitron', Arial, sans-serif;
+      font-size: 1rem;
+      font-family: inherit;
       font-weight: 600;
       border: none;
-      border-radius: 9px;
-      padding: 14px 30px;
-      margin: 0 2px;
+      border-radius: 8px;
+      padding: 13px 28px;
       cursor: pointer;
-      box-shadow: var(--glow);
-      letter-spacing: 1px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.18s, box-shadow 0.18s, transform 0.2s;
+      box-shadow: none;
+      transition: background var(--transition), transform var(--transition);
       outline: none;
-      z-index: 1;
+      letter-spacing: 0.1px;
+      justify-content: center;
     }
-    .neon-btn:hover {
-      background: linear-gradient(90deg, #3a8dde 20%, #00e0ff 100%);
-      filter: brightness(1.2);
-      box-shadow: 0 0 32px #00e0ff88, 0 0 8px #3a8dde99;
-      transform: translateY(-2px) scale(1.03);
+    .btn:active {
+      background: var(--primary-hover);
+      transform: scale(0.97);
     }
-    .neon-btn:active {
-      filter: brightness(0.96);
-      transform: scale(0.99);
+    .btn[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: var(--primary-hover);
     }
-    .neon-btn i {
-      margin-right: 9px;
-    }
-
-    .voice-select-anim {
-      animation: selectAnim 2s infinite alternate;
-    }
-    @keyframes selectAnim {
-      from { box-shadow: 0 0 8px #00e0ff22;}
-      to { box-shadow: 0 0 16px #00e0ff88;}
-    }
-
-    .wave-anim {
-      position: absolute;
-      left: -5vw; right: -5vw; top: -60px;
-      height: 110px;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .footer {
-      margin: 40px 0 10px 0;
-      color: #aaa;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      text-align: center;
-      opacity: 0.7;
-    }
-
-    /* Animated sound waves */
     .sound-waves {
       display: flex;
-      height: 36px;
+      height: 26px;
       align-items: flex-end;
-      gap: 6px;
+      gap: 4px;
       justify-content: center;
-      margin-top: 14px;
-      margin-bottom: 9px;
+      margin-top: 7px;
+      margin-bottom: 2px;
+      min-height: 26px;
+      user-select: none;
     }
     .sound-waves span {
-      width: 6px;
-      border-radius: 3px;
-      background: linear-gradient(180deg, #00e0ff 60%, #3a8dde 100%);
+      width: 5px;
+      border-radius: 2px;
+      background: var(--primary);
       display: inline-block;
-      animation: waveBounce 1.2s infinite;
-      opacity: 0.92;
+      animation: waveBounce 1.1s infinite;
+      opacity: 0.9;
     }
     .sound-waves span:nth-child(1) { animation-delay: 0s;}
-    .sound-waves span:nth-child(2) { animation-delay: 0.18s;}
-    .sound-waves span:nth-child(3) { animation-delay: 0.33s;}
-    .sound-waves span:nth-child(4) { animation-delay: 0.46s;}
-    .sound-waves span:nth-child(5) { animation-delay: 0.65s;}
+    .sound-waves span:nth-child(2) { animation-delay: 0.15s;}
+    .sound-waves span:nth-child(3) { animation-delay: 0.29s;}
+    .sound-waves span:nth-child(4) { animation-delay: 0.42s;}
+    .sound-waves span:nth-child(5) { animation-delay: 0.54s;}
     @keyframes waveBounce {
-      0%, 100% { height: 14px;}
-      40% { height: 36px;}
-      60% { height: 22px;}
-      80% { height: 32px;}
+      0%, 100% { height: 10px;}
+      40% { height: 25px;}
+      60% { height: 15px;}
+      80% { height: 22px;}
     }
-
-    /* Responsive Design */
+    .shake { animation: shake 0.36s; }
+    @keyframes shake {
+      0% { transform: translateX(0);}
+      20% { transform: translateX(-7px);}
+      40% { transform: translateX(7px);}
+      60% { transform: translateX(-5px);}
+      80% { transform: translateX(5px);}
+      100% { transform: translateX(0);}
+    }
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 28px 0 18px 0;
+      color: var(--text-sub);
+      font-size: 1rem;
+      background: none;
+      opacity: 0.88;
+      border-top: 1px solid var(--border);
+      user-select: none;
+      letter-spacing: 0.1px;
+    }
     @media (max-width: 600px) {
-      .card {
-        padding: 14vw 2vw 6vw 2vw;
-        min-width: unset;
-        max-width: 97vw;
-      }
-      .neon-title {
-        font-size: 6vw;
-      }
-      .input-icon { left: 13px; top: 23px;}
+      footer { font-size: 0.97rem; padding: 18px 0 13px 0;}
     }
+    /* Button icon alignment for OpenAI style */
+    .btn i { font-size: 1.09em; margin-right: 3px;}
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 </head>
 <body>
-  <!-- Tech animated wave background -->
-  <svg class="wave-anim" viewBox="0 0 1440 110" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path fill="url(#grad1)" fill-opacity="0.5" d="M0,50 Q360,150 720,50 Q1080,-50 1440,50 V110 H0 V50Z"/>
-    <defs>
-      <linearGradient id="grad1" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#00e0ff"/>
-        <stop offset="1" stop-color="#2c5364"/>
-      </linearGradient>
-    </defs>
-  </svg>
-
-  <div class="neon-title">
-    <i class="fa-solid fa-robot"></i>
-    Text2 - TTS 
+  <div class="container">
+    <header>
+      <div class="logo-title">
+        <i class="fa-solid fa-robot"></i>
+        Text2 - TTS
+      </div>
+      <div class="desc">
+        Nền tảng chuyển văn bản thành giọng nói tiếng Việt tự nhiên.<br>
+        Miễn phí cho cá nhân & học tập.
+      </div>
+    </header>
+    <main>
+      <form id="ttsForm" autocomplete="off">
+        <div class="input-group">
+          <label for="textInput">
+            <span class="input-icon"><i class="fa-solid fa-keyboard"></i></span>
+            Nội dung muốn đọc
+          </label>
+          <textarea id="textInput" placeholder="Ví dụ: Xin chào, tôi là trợ lý AI hiện đại."></textarea>
+        </div>
+        <div class="input-group">
+          <label for="voiceSelect">
+            <span class="input-icon"><i class="fa-solid fa-microchip"></i></span>
+            Chọn giọng đọc
+          </label>
+          <select id="voiceSelect">
+            <option value="vi-VN-Wavenet-A">🇻🇳 Wavenet-A (Nữ)</option>
+            <option value="vi-VN-Wavenet-B">🇻🇳 Wavenet-B (Nam)</option>
+            <option value="vi-VN-Standard-A">🇻🇳 Standard-A (Nữ)</option>
+            <option value="vi-VN-Standard-B">🇻🇳 Standard-B (Nam)</option>
+          </select>
+        </div>
+        <div class="controls">
+          <button type="button" class="btn" id="speakBtn">
+            <i class="fa-solid fa-play"></i>Nghe giọng đọc
+          </button>
+          <button type="button" class="btn" id="downloadBtn">
+            <i class="fa-solid fa-download"></i>Tải MP3
+          </button>
+        </div>
+        <div class="sound-waves" id="soundWaves" style="visibility:hidden;">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </form>
+    </main>
   </div>
-  <div class="card">
-    <div style="position: relative;">
-      <i class="fa-solid fa-keyboard input-icon"></i>
-      <textarea id="textInput" placeholder="Nhập nội dung bạn muốn đọc..."></textarea>
-    </div>
-    <div style="position: relative;">
-      <i class="fa-solid fa-microchip input-icon" style="top: 12px; left: 14px;"></i>
-      <select id="voiceSelect" class="voice-select-anim" style="padding-left:46px;">
-        <option value="vi-VN-Wavenet-A">🇻🇳 Wavenet-A (Nữ)</option>
-        <option value="vi-VN-Wavenet-B">🇻🇳 Wavenet-B (Nam)</option>
-        <option value="vi-VN-Standard-A">🇻🇳 Standard-A (Nữ)</option>
-        <option value="vi-VN-Standard-B">🇻🇳 Standard-B (Nam)</option>
-      </select>
-    </div>
-    <div class="controls">
-      <button class="neon-btn" id="speakBtn">
-        <i class="fa-solid fa-play"></i>Nghe giọng đọc
-      </button>
-      <button class="neon-btn" id="downloadBtn">
-        <i class="fa-solid fa-download"></i>Tải MP3
-      </button>
-    </div>
-    <div class="sound-waves" id="soundWaves" style="visibility:hidden;">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-  </div>
-  <div class="footer">
-    <i class=""></i> &nbsp;Hiện đại hoá bởi <b>Text2 - TTS Công nghệ 2025</b>
-  </div>
-
+  <footer>
+    © 2025 <b>Text2 - TTS</b> | Công nghệ bởi đội ngũ Việt Nam.<br>
+    Ứng dụng thử nghiệm cá nhân, API miễn phí cho học tập.
+  </footer>
   <script>
     let lastAudioBase64 = "";
     let audioObj = null;
@@ -330,8 +339,12 @@
       const voice = document.getElementById("voiceSelect").value;
       if (!text) {
         textInput.focus();
-        textInput.style.boxShadow = "0 0 0 2px #ff3366";
-        setTimeout(()=>textInput.style.boxShadow="",700);
+        textInput.style.borderColor = "#e74c3c";
+        textInput.style.background = "#fff3f3";
+        setTimeout(()=>{
+          textInput.style.borderColor = "";
+          textInput.style.background = "";
+        },700);
         return;
       }
       speakBtn.disabled = true;
@@ -367,32 +380,16 @@
       link.click();
     });
 
-    // Hiệu ứng shake khi lỗi
     speakBtn.addEventListener("animationend", () => {
       speakBtn.classList.remove("shake");
     });
-    // Tạo hiệu ứng shake bằng CSS động
-    const style = document.createElement('style');
-    style.innerHTML = `
-    .shake { animation: shake 0.4s; }
-    @keyframes shake {
-      0% { transform: translateX(0);}
-      20% { transform: translateX(-10px);}
-      40% { transform: translateX(10px);}
-      60% { transform: translateX(-7px);}
-      80% { transform: translateX(7px);}
-      100% { transform: translateX(0);}
-    }`;
-    document.head.appendChild(style);
 
-    // Nhấn Enter+Ctrl để phát
     textInput.addEventListener("keydown", e => {
       if (e.ctrlKey && e.key === "Enter") speakBtn.click();
     });
 
     // Hiệu ứng typing trên placeholder
     const placeholderTexts = [
-      "Nhập nội dung bạn muốn đọc...",
       "Ví dụ: Xin chào, tôi là trợ lý AI hiện đại.",
       "Bạn có thể nhập tối đa 5000 ký tự.",
       "Ctrl + Enter để nghe nhanh!"
@@ -410,7 +407,6 @@
       textInput.setAttribute("placeholder", curr.substring(0, charIdx));
     }, 85);
 
-    // Tự động focus input khi vào trang trên desktop
     if(window.innerWidth > 800) setTimeout(()=>textInput.focus(), 600);
   </script>
 </body>
