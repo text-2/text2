@@ -1,0 +1,1026 @@
+<!doctype html>
+  <link rel="icon" href="https://www.text2.click/favicon.ico" type="image/x-icon" />
+
+  <!-- Font Poppins (tùy chọn nếu dùng Google Fonts) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+
+  <style>
+    /* Reset và cài đặt cơ bản */
+    html, body {
+      margin: 0;
+      padding: 0;
+      /* Đảm bảo chiều cao tối thiểu để background gradient hiển thị đúng */
+      min-height: 100vh; 
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #ffffff;
+      /* Loại bỏ các thuộc tính gây xung đột */
+      /* position: fixed; */
+      /* width: 100%; */
+      /* height: 100%; */
+      /* overflow-x: hidden; */
+    }
+
+    /* Popup phủ toàn bộ */
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #0f0f0f; /* nền tối hoàn toàn, không trong suốt */
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto; /* Giữ lại cái này để popup có thể cuộn */
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    /* Khi thêm lớp hidden thì sẽ fadeOut */
+    .popup.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none; /* Ngăn chặn tương tác khi ẩn */
+    }
+
+    /* Header */
+    header {
+      background: rgba(33, 37, 41, 0.95);
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      border-bottom: 1px solid #444;
+      height: 40px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .taskbar-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .start-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .start-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .start-button img {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+    }
+
+    .start-button span {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .taskbar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .taskbar-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .taskbar-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .clock {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      font-family: 'Consolas', monospace;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 8px 10px;
+        height: 35px;
+      }
+      
+      .start-button span {
+        display: none;
+      }
+      
+      .taskbar-right {
+        gap: 8px;
+      }
+    }
+
+    /* Navbar */
+    nav {
+      background: linear-gradient(to right, #1a1a1a, #2a2a2a);
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      padding: 12px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      border-bottom: 1px solid #333;
+      position: sticky;
+      top: 40px;
+      z-index: 999;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    nav::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    nav a:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    nav a:hover::before {
+      opacity: 1;
+    }
+
+    nav a:active {
+      transform: translateY(0);
+    }
+
+    nav a svg {
+      width: 18px;
+      height: 18px;
+      opacity: 0.8;
+      flex-shrink: 0;
+    }
+
+    /* Search */
+    .search-container {
+      text-align: center;
+      margin: 15px auto;
+      flex-shrink: 0;
+      max-width: 800px;
+      width: 90%;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .search-button {
+      background: linear-gradient(145deg, #343a40, #23272a);
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      flex-shrink: 0;
+    }
+
+    .search-button:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(145deg, #3d4449, #2a2f33);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-button:active {
+      transform: translateY(0);
+    }
+
+    .search-button svg {
+      width: 20px;
+      height: 20px;
+      color: #fff;
+    }
+
+    /* Title */
+    .popup-title {
+      text-align: center;
+      font-size: 17px;
+      font-weight: 700;
+      background: rgba(33, 37, 41, 0.8);
+      padding: 10px 25px;
+      margin: 25px auto 15px;
+      border-radius: 20px;
+      width: fit-content;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+
+    /* Icon container */
+    .icon-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      flex-grow: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 90%;
+    }
+
+    /* Icon item */
+    .icon {
+      text-align: center;
+      text-decoration: none;
+      background: linear-gradient(145deg, #292929, #1f1f1f);
+      padding: 15px 10px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      color: #ffffff;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+      transform: rotate(25deg);
+      pointer-events: none;
+    }
+
+    .icon p {
+      font-size: 12px;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      padding: 0 5px;
+    }
+
+    .icon:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
+      background: linear-gradient(145deg, #343a40, #23272a);
+    }
+
+    /* Icon Image */
+    .icon img {
+      width: 70px;
+      height: 70px;
+      border-radius: 15px;
+      object-fit: cover;
+      margin-bottom: 8px;
+      border: 4px solid #343a40;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(33, 37, 41, 0.8);
+      text-align: center;
+      padding: 15px;
+      font-size: 16px;
+      flex-shrink: 0;
+      border-top: 1px solid #444;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+      position: sticky;
+      bottom: 0;
+      z-index: 999;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .icon-container {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .search-container {
+        margin: 10px auto;
+      }
+
+      .search-box {
+        max-width: 90%;
+      }
+
+      .search-button {
+        width: 40px;
+        height: 40px;
+      }
+
+      .search-button svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .icon-container {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        padding: 12px;
+      }
+
+      .icon {
+        padding: 12px;
+      }
+
+      .icon img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .icon p {
+        font-size: 11px;
+        margin-top: 6px;
+        padding: 0 3px;
+      }
+
+      footer {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      nav {
+        padding: 8px;
+        gap: 10px;
+      }
+
+      nav a {
+        padding: 8px 15px;
+        font-size: 13px;
+      }
+
+      nav a svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .icon-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .icon {
+        padding: 10px;
+      }
+
+      .icon img {
+        width: 45px;
+        height: 45px;
+      }
+
+      .icon p {
+        font-size: 10px;
+        margin-top: 4px;
+        padding: 0 2px;
+      }
+
+      nav a {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      nav a svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    /* Search Results Styling */
+    .search-results {
+      margin-top: 15px;
+      padding: 12px;
+      max-width: 90%;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+    }
+
+    .search-results.active {
+      display: block;
+    }
+
+    .search-results p {
+      color: #fff;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .search-results .loading {
+      text-align: center;
+      color: #888;
+    }
+
+    /* Search Box Styling */
+    .search-container input[type="text"] {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 50px;
+      border: 1px solid #555;
+      outline: none;
+      font-size: 15px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      backdrop-filter: blur(6px);
+      transition: all 0.3s ease;
+    }
+
+    .search-container input[type="text"]:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #888;
+    }
+
+    /* Thêm style cho fullscreen */
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+    }
+
+    /* --- Thêm popup iframe fullscreen --- */
+    .iframe-popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.9);
+      z-index: 10000;
+      display: none;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .iframe-popup .popup-header {
+      background: linear-gradient(to right, #1a1a1a, #2a2a2a);
+      color: #fff;
+      padding: 8px 15px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
+      user-select: none;
+      height: 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .iframe-popup .popup-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .iframe-popup .popup-title img {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .iframe-popup .popup-title span {
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      background: linear-gradient(45deg, #fff, #ccc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 4px;
+    }
+
+    .window-control {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .window-control::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .window-control:hover::before {
+      opacity: 1;
+    }
+
+    .window-control.close:hover {
+      background: #e81123;
+    }
+
+    .window-control.close:hover::before {
+      opacity: 0;
+    }
+
+    .iframe-popup.maximized {
+      width: 100vw;
+      height: 100vh;
+      transform: none !important;
+    }
+
+    .iframe-popup.minimized {
+      transform: translateY(calc(100% - 40px));
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+    }
+
+    .iframe-popup.minimized .popup-header {
+      background: linear-gradient(to right, #2a2a2a, #1a1a1a);
+    }
+
+    .iframe-popup iframe {
+      flex-grow: 1;
+      border: none;
+      width: 100%;
+      background: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .iframe-popup .popup-header {
+        height: 35px;
+        padding: 5px 10px;
+      }
+
+      .iframe-popup .popup-title img {
+        width: 18px;
+        height: 18px;
+      }
+
+      .window-control {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .iframe-popup .popup-header {
+        height: 30px;
+        padding: 4px 8px;
+      }
+
+      .iframe-popup .popup-title img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .window-control {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  </style>
+
+
+
+  <!-- Giao diện popup -->
+  <div class="popup">
+    <!-- Header của ứng dụng -->
+    <header>
+      <div class="taskbar-left">
+        <div class="start-button">
+          <!-- Logo của Text2 -->
+          <img src="https://lh3.googleusercontent.com/p/AF1QipMAH2F9BWWLSU14YABENNfSIUDTinGdHOO3wC-S=s1360-w1360-h1020-rw" />
+          <span>Text2</span>
+        </div>
+      </div>
+      
+      <div class="taskbar-right">
+        <!-- Icon thông báo -->
+        <div class="taskbar-icon" title="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </div>
+        <!-- Đồng hồ hiển thị thời gian -->
+        <div class="clock" id="clock">00:00</div>
+        <!-- Icon cài đặt -->
+        <div class="taskbar-icon" title="Settings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Thanh điều hướng chính -->
+    <nav>
+      <!-- Link Home -->
+      <a href="#home" data-link="https://www.text2.click/p/404.html">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        Home
+      </a>
+      <!-- Link App -->
+      <a href="#tools" data-link="https://www.text2.click/p/404.html">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        App
+      </a>
+      <!-- ADS -->
+      <a href="#about" data-link="https://www.youtube.com/@text2-company">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+          <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+        </svg>
+        Youtube 
+      </a>
+      <!-- Link Contact -->
+      <a href="https://mail.text2.click/" data-link="https://mail.text2.click/">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        Contact
+      </a>
+    </nav>
+
+    <!-- Container tìm kiếm -->
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search and chat with text2..." />
+        <button id="searchButton" class="search-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+      <!-- Kết quả tìm kiếm sẽ hiển thị ở đây -->
+      <div id="searchResults" class="search-results"></div>
+    </div>
+
+    <!-- Container chứa các icon ứng dụng -->
+    <div class="icon-container">
+      <!-- Icon Chat AI Vietnamese -->
+      <a href="https://m.text2.click/chat-ai-vietnam.html" class="icon">
+        <img src="https://i.pinimg.com/736x/5f/c1/97/5fc19776446af97bbc99ac33f3ef794f.jpg" alt="Chat AI Vietnamese" />
+        <p>Chat AI Vietnam </p>
+      </a>
+
+      <!-- Icon Chat AI English -->
+      <a href="https://m.text2.click/chat-ai.html" class="icon">
+        <img src="https://i.pinimg.com/736x/5f/c1/97/5fc19776446af97bbc99ac33f3ef794f.jpg" alt="YouTube Text2" />
+        <p>Chat AI English</p>
+      </a>
+      <!-- Icon doc -->
+      <a href="https://m.text2.click/doc.html" class="icon">
+        <img src="https://i.pinimg.com/736x/84/86/d6/8486d629e4d44e88a2e9080f9e8cd6f0.jpg" alt="doc" />
+        <p>Document</p>
+      </a>   
+      <!-- Icon Read all files -->
+      <a href="https://m.text2.click/read-file.html" class="icon">
+        <img src="https://scontent.fsgn8-3.fna.fbcdn.net/v/t39.30808-6/495572667_122152936364463490_2691005190274654124_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=phXGxPPwl9kQ7kNvwG-mL8-&_nc_oc=Admb6bS0WtQ6kHl7Al8xuawh1tQzkH8TgZfP85Vz6npOMl6QJKAF1BOEG0Fog10N2O4&_nc_zt=23&_nc_ht=scontent.fsgn8-3.fna&_nc_gid=kSzW8ZabujlK2-PtTJm5VA&oh=00_AfOZGme1Da78Xz3fKMuShAGcWLp6NMn4_qF13E-OmUVxPw&oe=6858AC55" alt="Contact" />
+        <p>Read all files</p>
+      </a>
+
+      <!-- Icon Love fortune telling -->
+      <a href="https://m.text2.click/love-match.html" class="icon">
+        <img src="https://free.vector6.com/wp-content/uploads/2020/05/0io92dz-Vector-Trai-Tim-Tinh-Yeu-018.jpg" alt="Love fortune telling" />
+        <p>Love Match</p>
+      </a>
+
+      <!-- Icon Read HTML -->
+      <a href="https://m.text2.click/read.html" class="icon">
+        <img src="https://i.pinimg.com/736x/ba/68/39/ba683992731746ba2cce647a1a0b2f4e.jpg" alt="Read HTML" />
+        <p>Read HTML</p>
+      </a>
+
+      <!-- Icon Sửa lỗi chính tả Vietnamese -->
+      <a href="https://m.text2.click/sua-loi-chinh-ta.html" class="icon">
+        <img src="https://i.pinimg.com/736x/94/43/12/944312978b26587a178c2b892c8b36b7.jpg" alt="Sửa lỗi chính tả" />
+        <p>Sửa lỗi chính tả Vietnamese</p>
+      </a>
+
+      <!-- Icon Correct spelling English -->
+      <a href="https://m.text2.click/text-correction.html" class="icon">
+        <img src="https://i.pinimg.com/736x/94/43/12/944312978b26587a178c2b892c8b36b7.jpg" alt="Correct spelling English" />
+        <p>Text correction</p>
+      </a>
+
+      <!-- Icon Create QR Code -->
+      <a href="https://m.text2.click/qr-code.html" class="icon">
+        <img src="https://i.pinimg.com/736x/87/9b/6f/879b6f3b3727b738365cffef13f59388.jpg" alt="Create QR Code" />
+        <p>Create QR Code</p>
+      </a>
+
+      <!-- Icon IMG Design -->
+      <a href="https://m.text2.click/img-design.html" class="icon">
+        <img src="https://pbs.twimg.com/media/GpI7Nb2a4AAcTPE?format=png&name=small" alt="IMG Design" />
+        <p>IMG Design</p>
+      </a>
+
+      <!-- Icon IMG Edit -->
+      <a href="https://m.text2.click/img.html" class="icon">
+        <img src="https://i.pinimg.com/736x/24/69/48/246948ea16910350a5506e797f330ece.jpg" alt="IMG Edit" />
+        <p>Magic IMG </p>
+      </a>
+      
+      <!-- Icon 05 Production -->
+      <a href="https://m.text2.click/tts.html" class="icon">
+        <img src="https://i.pinimg.com/736x/da/7d/ca/da7dca01092dce2a700f8e08785e47e8.jpg" alt="IMG Edit" />
+        <p>Text2  -  TTS </p>
+      </a>
+    </div>
+
+    <!-- Footer của ứng dụng -->
+    <footer>
+      © text2 | CEO HÓA NHẬT ANH | mail.text2.click
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Xử lý sự kiện click cho các link trong thanh điều hướng (navbar)
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const targetUrl = this.getAttribute('href');
+        // Nếu link bắt đầu bằng '#', ngăn chặn hành vi mặc định và mở URL từ data-link trong tab mới
+        if (targetUrl.startsWith('#')) {
+          e.preventDefault(); // Chỉ ngăn chặn chuyển hướng cho các link bắt đầu bằng #
+          const dataLink = this.getAttribute('data-link');
+          if (dataLink) {
+            window.open(dataLink, '_blank');
+          }
+        }
+        // Các link không bắt đầu bằng '#' sẽ chuyển hướng bình thường
+      });
+    });
+
+    // Xử lý sự kiện click cho các icon ứng dụng
+    document.querySelectorAll('.icon').forEach(icon => {
+      icon.addEventListener('click', function(e) {
+        e.preventDefault(); // Ngăn chuyển trang mặc định
+        const url = this.getAttribute('href');
+        const width = 800;
+        const height = 600;
+        // Tính toán vị trí để mở cửa sổ popup ở giữa màn hình
+        const left = (window.screen.width - width) / 2;
+        const top = (window.screen.height - height) / 2;
+        // Mở cửa sổ mới thay vì iframe popup trong trường hợp này để tránh lỗi Cross-Origin
+        window.open(url, "_blank", `width=${width},height=${height},left=${left},top=${top}`);
+      });
+    });
+
+    // Các hàm cho iframe popup (hiện chưa dùng tới trong code HTML hiện tại)
+    // Hàm đóng iframe popup
+    function closeIframePopup() {
+      const popup = document.getElementById('iframePopup');
+      if (popup) { // Kiểm tra xem phần tử có tồn tại không
+        popup.style.display = 'none';
+        const iframe = document.getElementById('popupIframe');
+        if (iframe) iframe.src = ''; // Xóa src của iframe để giải phóng tài nguyên
+        popup.classList.remove('maximized', 'minimized'); // Xóa các lớp trạng thái
+        const maximizeBtn = document.querySelector('.window-control.maximize');
+        if (maximizeBtn) {
+            maximizeBtn.innerHTML = '🗖'; // Đặt lại biểu tượng phóng to
+            maximizeBtn.title = 'Phóng to';
+        }
+      }
+    }
+
+    // Hàm thu nhỏ cửa sổ
+    function minimizeWindow() {
+      const popup = document.getElementById('iframePopup');
+      if (popup) popup.classList.toggle('minimized');
+    }
+
+    // Hàm phóng to/khôi phục cửa sổ
+    function maximizeWindow() {
+      const popup = document.getElementById('iframePopup');
+      if (popup) {
+        popup.classList.toggle('maximized');
+        const maximizeBtn = document.querySelector('.window-control.maximize');
+        if (maximizeBtn) {
+          if (popup.classList.contains('maximized')) {
+            maximizeBtn.innerHTML = '🗗'; // Biểu tượng khôi phục
+            maximizeBtn.title = 'Khôi phục';
+          } else {
+            maximizeBtn.innerHTML = '🗖'; // Biểu tượng phóng to
+            maximizeBtn.title = 'Phóng to';
+          }
+        }
+      }
+    }
+
+    // Lấy các phần tử DOM cần thiết cho chức năng tìm kiếm
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const searchResults = document.getElementById('searchResults');
+    // Lưu ý: Cần thay thế 'YOUR_GEMINI_API_KEY' bằng API Key thật của bạn
+    // Để bảo mật API Key, không nên để trực tiếp trong mã client-side như thế này nếu là dự án lớn.
+    // Nên sử dụng backend để gọi API.
+    const GEMINI_API_KEY = 'AIzaSyDpJuZRk3Q-0sXrV_oH8qCbQ7Z2PHr36qg'; 
+
+    // Các phản hồi cố định cho các từ khóa cụ thể
+    const keywordResponses = {
+      "nhật anh": "Nhật Anh là CEO của 504 Media, chuyên về AI, blog, và mạng xã hội. Đúng rồi đó, Nhật Anh đa tài lắm đó!",
+      "504 media": "504 Media là công ty chuyên về công nghệ AI và nội dung số, nơi hội tụ những ý tưởng đỉnh cao!",
+      "tạo ra": "Tớ được tạo ra bởi Hóa Nhật Anh, CEO siêu ngầu của 504 Media và Text2 đó nha! Cậu ấy là người sáng tạo ra tớ đó!",
+      "chào": "Chào bạn iu! Có chuyện gì vui không nè? Kể tui nghe với!",
+      "cảm ơn": "Hihi, không có chi đâu nghen 🫶 Luôn sẵn lòng phục vụ!",
+      "anh tú": "À Anh Tú hả? Sinh viên VTV College và là bạn thân của Nhật Anh luôn đóa! Người này cũng có máu mặt lắm đó nha!",
+      "chú hùng": "Tiệm Ảnh Chú Hùng - địa chỉ siêu xịn xò tại Bến Tre đóa! Chụp hình đẹp bá cháy bọ chét luôn!",
+      "adobe": "Link bản crack Adobe từ 2020 đến 2025 nè: https://www.text2.click/p/ban-crack-adobe.html. Nhớ dùng cẩn thận nha!",
+      "huy hoàng": "Huy Hoàng là ca sĩ sắp nổi đình đám đó! Follow liền nha kẻo lỡ trend!",
+      "ai là bạn": "Mình là trợ lý AI cực chất của Text2 nè 💚 Siêu thông minh và luôn ở đây để giúp bạn!",
+    };
+
+    // Hàm thực hiện tìm kiếm
+    async function performSearch() {
+      const query = searchInput.value.trim().toLowerCase();
+      
+      // Kiểm tra độ dài truy vấn
+      if (query.length < 2) {
+        searchResults.innerHTML = '<p>Please enter at least 2 characters to search</p>';
+        searchResults.classList.add('active');
+        return;
+      }
+
+      // Hiển thị trạng thái đang tìm kiếm
+      searchResults.innerHTML = '<p class="loading">Đang tìm kiếm...</p>';
+      searchResults.classList.add('active');
+
+      // Ưu tiên kiểm tra các từ khóa cố định trước
+      for (const [keyword, response] of Object.entries(keywordResponses)) {
+        if (query.includes(keyword)) {
+          searchResults.innerHTML = `<p>${response}</p>`;
+          return;
+        }
+      }
+
+      try {
+        // Định dạng tin nhắn gửi đến API Gemini
+        const formattedMessage = `trả lời ngắn gọn dưới 700 ký tự và trả lời dự theo ngôn ngữ người dùng, trả lời theo hướng ngôi thứ nhất xưng hộ tên text2, thêm text2 khi trò chuyện : ${query}`;
+
+        // Gọi API Gemini để lấy phản hồi
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{ text: formattedMessage }]
+            }]
+          })
+        });
+
+        const data = await response.json();
+        // Lấy phản hồi từ bot, nếu không có thì hiển thị thông báo mặc định
+        let botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Oops, chưa hiểu câu nè 😅 Cậu hỏi lại xíu được không?";
+        // Thay thế tên model AI bằng "Text2"
+        botReply = botReply.replace(/Gemini|Google/g, "Text2");
+        // Xóa các ký tự markdown như **
+        botReply = botReply.replace(/\*+/g, ""); 
+        
+        // Hiển thị kết quả tìm kiếm
+        searchResults.innerHTML = `<p>${botReply}</p>`;
+      } catch (error) {
+        // Xử lý lỗi nếu có
+        console.error('Search error:', error);
+        searchResults.innerHTML = '<p>Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại sau. :(</p>';
+      }
+    }
+
+    // Gắn sự kiện click cho nút tìm kiếm
+    searchButton.addEventListener('click', performSearch);
+
+    // Gắn sự kiện nhấn phím Enter cho ô input tìm kiếm
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    // Đóng kết quả tìm kiếm khi click ra ngoài
+    document.addEventListener('click', function(e) {
+      if (!searchInput.contains(e.target) && !searchResults.contains(e.target) && !searchButton.contains(e.target)) {
+        searchResults.classList.remove('active');
+      }
+    });
+
+    // Hàm cập nhật đồng hồ
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Cập nhật đồng hồ ngay lập tức và sau đó mỗi giây
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+
+</!doctype>
