@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,28 +19,36 @@
 </head>
 <body class="bg-gray-200 font-sans">
 
-  <!-- Fullscreen Popup Overlay chứa cả giao diện upload + editor -->
+  <!-- Fullscreen Popup Overlay containing both upload interface + editor -->
   <div id="mainPopup" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-6">
-    <!-- Tiêu đề -->
+    <!-- Title -->
     <h1 class="text-4xl font-bold text-indigo-600 mb-8">🎨 Text2 Edit IMG</h1>
 
-    <!-- Chọn file -->
+    <!-- File selection -->
     <div id="uploadSection" class="bg-gray-100 p-6 rounded-xl shadow-lg w-full max-w-xl text-center">
-      <label class="block text-lg font-semibold mb-2">📂 Chọn file ảnh PSD / PNG / JPG từ máy:</label>
+      <label class="block text-lg font-semibold mb-2">📂 Select PSD / PNG / JPG image file from your computer:</label>
       <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-gray-800">
       <button onclick="uploadToPhotopea()" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700">
-        Bắt đầu thiết kế hình
+        Start Image Design
       </button>
     </div>
 
-    <!-- Photopea iframe ẩn ban đầu -->
-<!-- Photopea iframe dạng popup, che trang nhưng không chiếm full màn -->
-<div id="photopeaSection" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-  <div class="relative w-full max-w-6xl h-[80vh] bg-white rounded-xl overflow-hidden shadow-2xl">
-    <button onclick="closePhotopea()" class="absolute top-4 right-4 bg-white text-black font-bold px-4 py-2 rounded-lg z-50 hover:bg-red-500 hover:text-white">
-      ✖ Đóng 
-    </button>
-    <iframe id="photopeaFrame" class="w-full h-full border-none rounded-xl"></iframe>
+    <!-- Hidden Photopea iframe initially -->
+<!-- Photopea iframe as popup, now truly fullscreen with branding overlay -->
+<div id="photopeaSection" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+  <div class="relative w-full h-full bg-white overflow-hidden">
+    <!-- Branding bar -->
+    <div class="absolute top-0 left-0 w-full flex items-center justify-between bg-indigo-700 bg-opacity-90 px-8 py-4 z-50">
+      <div class="flex items-center space-x-4">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhnpJq8OUfwyzZft6Loh0DxLpz_ZzJgbE4qWzXy4guSg22-MxxIttVq4Qh-6-J0_BM5aZd2JERhZ3ZgdJuA7Nlh_od-hWd13vsChMuhI1shQAc95sYS7aP252wAPaGRu5k_R64KS1ZjMi-IK8xnzKh5wWf5NqL4J-t7ulGMJzdb9PGR2sCiYUFUZBk5m58/s320/20250426_1052_Logo%20Kh%E1%BB%91i%20H%E1%BB%99p_remix_01jsr3jba1eahspypxy3w94xgc.jpg" alt="Text2 Logo" class="h-12 w-12 rounded-full border-2 border-white shadow-lg">
+        <span class="text-3xl font-extrabold text-white tracking-wide drop-shadow-lg">Text2 - Image Editor</span>
+      </div>
+      <button onclick="closePhotopea()" class="bg-white text-indigo-700 font-bold px-6 py-2 rounded-lg shadow hover:bg-red-500 hover:text-white transition-colors">
+        ✖ Close 
+      </button>
+    </div>
+    <!-- Fullscreen iframe below the branding bar -->
+    <iframe id="photopeaFrame" class="absolute top-20 left-0 w-full h-[calc(100%-5rem)] border-none"></iframe>
   </div>
 </div>
 
@@ -50,7 +58,7 @@
       const fileInput = document.getElementById('fileInput');
       const file = fileInput.files[0];
       if (!file) {
-        alert("Vui lòng chọn một tệp.");
+        alert("Please select a file.");
         return;
       }
 
@@ -60,14 +68,14 @@
 
         const config = {
           files: [dataUrl],
-          script: 'app.echoToOE("Đã tải ảnh vào Photopea!");'
+          script: 'app.echoToOE("Image loaded into Photopea!");'
         };
 
         const encoded = encodeURIComponent(JSON.stringify(config));
         const iframe = document.getElementById('photopeaFrame');
         iframe.src = "https://www.photopea.com#" + encoded;
 
-        // Chuyển sang iframe Photopea fullscreen
+        // Switch to fullscreen Photopea iframe
         document.getElementById('uploadSection').classList.add('hidden');
         document.getElementById('photopeaSection').classList.remove('hidden');
       };
@@ -83,3 +91,4 @@
   </script>
 </body>
 </html>
+
