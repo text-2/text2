@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Text2 - Doc</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link rel="icon" type="image/png" href="https://pbs.twimg.com/media/Gtaqlv4aIAAi51x?format=jpg&name=medium">
+  <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjysTRmGacWYC_CzNHc8xVWZVN_ex6fgv67hTfRY-eZfkaZjMh3WECjTiSv9yFQM32prXbCyhUOmiTOP8qCDjwZfmk83NBA8G-Fl8Pq0jh5NVoDxTc0vDdwDYz6GdpVQCDUtV0MrFmeR9v0e8pTIPxHunxje1TCs4buqym2RUUGPVNLauabVusf3xOoJYY/s320/20250614_2309_Logo%20Ph%E1%BA%A7n%20M%E1%BB%81m%203D_simple_compose_01jxqk7jr7essv2gm7736j7fg2.png">
+  <!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6J85STMJ14');
+</script>
+
   <style>
     html, body {
       background: #f6f8fb;
@@ -24,14 +34,16 @@
     .toolbar {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      padding: 14px 14px 10px 14px;
-      background: #e9ecf1;
-      border-radius: 18px 18px 0 0;
-      box-shadow: 0 2px 10px 0 rgba(0,0,0,.07);
-      border: 1.5px solid #d1d6e0;
+      gap: 0;
+      padding: 6px 8px 4px 8px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,.06);
+      border: 1px solid #e3e6eb;
       position: relative;
       overflow-x: auto;
+      align-items: center;
+      min-height: 48px;
     }
     [data-theme="dark"] .toolbar {
       background: #23272f;
@@ -40,40 +52,83 @@
     }
     .toolbar button, .toolbar select, .toolbar input[type="color"] {
       border: none;
-      border-radius: 10px;
-      background: #fff;
+      border-radius: 6px;
+      background: transparent;
       color: #23272f;
-      font-size: 16px;
-      padding: 7px 13px;
+      font-size: 17px;
+      padding: 0 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      transition: background 0.2s, color 0.2s;
       min-width: 36px;
       min-height: 36px;
+      height: 36px;
       outline: none;
+      transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+      margin: 0 1px;
     }
     [data-theme="dark"] .toolbar button,
     [data-theme="dark"] .toolbar select,
     [data-theme="dark"] .toolbar input[type="color"] {
-      background: #23272f;
+      background: transparent;
       color: #f0f2f6;
-      border: 1px solid #373d46;
+      border: none;
     }
     .toolbar button i { color: #333; font-size: 18px; }
     [data-theme="dark"] .toolbar button i { color: #e0e6f2; }
     .toolbar button:hover, .toolbar select:focus, .toolbar input[type="color"]:focus {
-      background: #185dc6;
-      color: #fff;
+      background: #e8f0fe;
+      color: #185dc6;
+      box-shadow: 0 1px 4px 0 rgba(24,93,198,0.08);
     }
     [data-theme="dark"] .toolbar button:hover, 
     [data-theme="dark"] .toolbar select:focus,
     [data-theme="dark"] .toolbar input[type="color"]:focus {
-      background: #377bf9;
+      background: #233d6e;
       color: #fff;
     }
-    .dropdown, .search-dropdown { position: relative; display: inline-block; }
-    .dropdown-content, .search-content {
+    .toolbar select {
+      min-width: 40px;
+      height: 36px;
+      border-radius: 6px;
+      background: #f7fafd;
+      color: #23272f;
+      font-size: 15px;
+      margin: 0 2px;
+      padding: 0 8px;
+      border: none;
+      box-shadow: none;
+    }
+    [data-theme="dark"] .toolbar select {
+      background: #23272f;
+      color: #f0f2f6;
+    }
+    .toolbar input[type="color"] {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 6px;
+      background: transparent;
+      border: none;
+      margin: 0 2px;
+    }
+    .toolbar-separator {
+      display: inline-block;
+      width: 1px;
+      height: 28px;
+      background: #e3e6eb;
+      margin: 0 7px;
+      vertical-align: middle;
+    }
+    [data-theme="dark"] .toolbar-separator {
+      background: #373d46;
+    }
+    .toolbar .dropdown {
+      position: relative;
+      display: inline-block;
+      margin: 0 1px;
+    }
+    .toolbar .dropdown-content {
       display: none;
       position: absolute;
       left: 0; top: 110%;
@@ -82,16 +137,76 @@
       box-shadow: 0 2px 10px 0 rgba(0,0,0,.07);
       border-radius: 10px;
       z-index: 11;
+      border: 1px solid #e3e6eb;
+      padding: 4px 0;
     }
-    [data-theme="dark"] .dropdown-content {
+    [data-theme="dark"] .toolbar .dropdown-content {
       background: #23272f;
       color: #f0f2f6;
       border: 1px solid #373d46;
     }
-    .dropdown:hover .dropdown-content, .dropdown:focus-within .dropdown-content {
+    .toolbar .dropdown:hover .dropdown-content, .toolbar .dropdown:focus-within .dropdown-content {
       display: block;
     }
-    .toolbar select, .toolbar input[type="color"] { min-width: 40px; }
+    .toolbar .dropdown button {
+      background: transparent;
+      border: none;
+      color: inherit;
+      min-width: 36px;
+      min-height: 36px;
+      padding: 0 10px;
+      border-radius: 6px;
+      font-size: 17px;
+      margin: 0;
+    }
+    .toolbar .dropdown-content button {
+      width: 100%;
+      text-align: left;
+      padding: 7px 14px;
+      background: none;
+      border: none;
+      color: #23272f;
+      font-size: 15px;
+      border-radius: 6px;
+      transition: background 0.18s, color 0.18s;
+    }
+    .toolbar .dropdown-content button:hover {
+      background: #e8f0fe;
+      color: #185dc6;
+    }
+    [data-theme="dark"] .toolbar .dropdown-content button {
+      color: #f0f2f6;
+    }
+    [data-theme="dark"] .toolbar .dropdown-content button:hover {
+      background: #233d6e;
+      color: #fff;
+    }
+    /* Responsive for toolbar */
+    @media (max-width: 480px) {
+      .toolbar {
+        flex-wrap: wrap;
+        padding: 4px 2px 2px 2px;
+        border-radius: 6px;
+        min-height: 36px;
+      }
+      .toolbar button, .toolbar select, .toolbar input[type="color"] {
+        min-width: 28px;
+        min-height: 28px;
+        height: 28px;
+        font-size: 13px;
+        padding: 0 5px;
+      }
+      .toolbar .dropdown button {
+        min-width: 28px;
+        min-height: 28px;
+        font-size: 13px;
+        padding: 0 5px;
+      }
+      .toolbar-separator {
+        height: 20px;
+        margin: 0 3px;
+      }
+    }
     .editor-outer {
       background: #fff;
       border-radius: 0 0 18px 18px;
@@ -205,26 +320,91 @@
       color: #fff;
     }
     @media (max-width: 480px) {
+      .container {
+        padding: 0 2px;
+        margin-top: 10px;
+      }
       .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 6px;
-        overflow-x: auto;
+        border-radius: 8px 8px 0 0;
+        padding: 6px 2px 4px 2px;
+        gap: 3px;
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(2px);
+      }
+      [data-theme="dark"] .toolbar {
+        background: rgba(35,39,47,0.98);
       }
       .toolbar button, .toolbar select, .toolbar input[type="color"] {
-        width: 100%;
+        min-width: 32px;
+        min-height: 32px;
+        font-size: 13px;
+        padding: 5px 7px;
+        width: auto;
+        margin: 0 1px;
+      }
+      .toolbar button i {
+        font-size: 15px;
+      }
+      .toggle-darkmode, .saved-notes-btn {
+        width: auto;
+        min-width: 32px;
+        font-size: 13px;
+        padding: 5px 7px;
+        margin-left: 0;
+      }
+      .dropdown-content, .search-content {
+        min-width: 120px;
+        font-size: 13px;
+      }
+      .editor-outer {
+        border-radius: 0 0 12px 12px;
+        padding: 0;
+      }
+      .editor {
+        padding: 16px 6px 14px 6px;
+        font-size: 1em;
+        min-height: 180px;
+        max-height: 40vh;
+      }
+      .wordcount {
+        font-size: 12px;
+        margin: 4px 4px 4px 0;
+        padding-right: 2px;
+      }
+      .saved-notes-modal {
         min-width: 0;
-        justify-content: flex-start;
+        max-width: 98vw;
+        padding: 10px 4px 8px 4px;
+        font-size: 0.98em;
       }
-      .toggle-darkmode {
-        margin-left: 0;
-        width: 100%;
-        justify-content: flex-start;
+      .saved-note-item {
+        padding: 8px 4px;
+        font-size: 0.98em;
       }
-      .saved-notes-btn {
-        width: 100%;
-        margin-left: 0;
+      .saved-note-title {
+        font-size: 1em;
       }
+      .saved-note-date {
+        font-size: 0.95em;
+      }
+      .img-modal-bg img {
+        max-width: 98vw;
+        max-height: 60vh;
+      }
+    }
+    /* Responsive for tables, images, iframes in editor */
+    .editor table {
+      max-width: 100%;
+      overflow-x: auto;
+      display: block;
+    }
+    .editor img, .editor iframe {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .editor iframe {
+      min-width: 200px;
     }
     .img-modal-bg {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -236,6 +416,11 @@
       background: #fff;
     }
     [data-theme="dark"] .img-modal-bg img { background: #23272f; }
+    .editor, .saved-notes-modal, pre, code {
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/turndown/dist/turndown.min.js"></script>
@@ -245,64 +430,111 @@
 <body data-theme="light">
   <div class="container">
     <div class="toolbar" id="toolbar">
-      <button onclick="format('bold')" title="Đậm"><i class="fas fa-bold"></i></button>
-      <button onclick="format('italic')" title="Nghiêng"><i class="fas fa-italic"></i></button>
-      <button onclick="format('underline')" title="Gạch chân"><i class="fas fa-underline"></i></button>
-      <button onclick="format('insertUnorderedList')" title="Danh sách"><i class="fas fa-list-ul"></i></button>
-      <button onclick="format('justifyLeft')" title="Căn trái"><i class="fas fa-align-left"></i></button>
-      <button onclick="format('justifyCenter')" title="Căn giữa"><i class="fas fa-align-center"></i></button>
-      <button onclick="format('justifyRight')" title="Căn phải"><i class="fas fa-align-right"></i></button>
-      <select onchange="format('fontName', this.value)" title="Phông chữ">
-        <option value="">Phông chữ</option>
+      <!-- 1. File (Import/Export) -->
+      <div class="dropdown">
+        <button title="Import file"><i class="fas fa-file-import"></i></button>
+        <div class="dropdown-content">
+          <input type="file" id="fileInput" accept=".txt, .html, .md" style="display: none;" onchange="importFile(event)">
+          <button onclick="document.getElementById('fileInput').click()"><i class="fas fa-file-upload"></i> Choose file</button>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button title="Export file"><i class="fas fa-file-export"></i></button>
+        <div class="dropdown-content">
+          <button onclick="exportFile('txt')"><i class="fas fa-file-alt"></i> Export TXT</button>
+          <button onclick="exportFile('html')"><i class="fas fa-code"></i> Export HTML</button>
+          <button onclick="exportFile('md')"><i class="fas fa-file-markdown"></i> Export Markdown</button>
+          <button onclick="exportFile('pdf')"><i class="fas fa-file-pdf"></i> Export PDF</button>
+          <button onclick="exportFile('doc')"><i class="fas fa-file-word"></i> Export Word</button>
+        </div>
+      </div>
+      <span class="toolbar-separator"></span>
+
+      <!-- 2. Undo/Redo -->
+      <button onclick="format('undo')" title="Undo"><i class="fas fa-undo"></i></button>
+      <button onclick="format('redo')" title="Redo"><i class="fas fa-redo"></i></button>
+      <span class="toolbar-separator"></span>
+
+      <!-- 3. Heading -->
+      <select onchange="insertHeading(this.value); this.value=''" title="Heading">
+        <option value="">Heading</option>
+        <option value="H1">Heading 1</option>
+        <option value="H2">Heading 2</option>
+        <option value="H3">Heading 3</option>
+        <option value="P">Normal paragraph</option>
+      </select>
+      <span class="toolbar-separator"></span>
+
+      <!-- 4. Font -->
+      <select onchange="format('fontName', this.value)" title="Font">
+        <option value="">Font</option>
         <option value="Arial">Arial</option>
         <option value="Courier New">Courier</option>
         <option value="Times New Roman">Times</option>
         <option value="Comic Sans MS">Comic Sans</option>
       </select>
-      <select onchange="format('fontSize', this.value)" title="Cỡ chữ">
-        <option value="">Cỡ chữ</option>
-        <option value="1">Rất nhỏ</option>
-        <option value="3">Bình thường</option>
-        <option value="5">Lớn</option>
-        <option value="7">Rất lớn</option>
+      <span class="toolbar-separator"></span>
+
+      <!-- 5. Size -->
+      <select onchange="format('fontSize', this.value)" title="Font size">
+        <option value="">Font size</option>
+        <option value="1">Very small</option>
+        <option value="3">Normal</option>
+        <option value="5">Large</option>
+        <option value="7">Very large</option>
       </select>
-      <input type="color" onchange="format('foreColor', this.value)" title="Màu chữ">
-      <input type="color" onchange="format('hiliteColor', this.value)" title="Màu nền chữ">
-      <button onclick="insertLink()" title="Thêm liên kết"><i class="fas fa-link"></i></button>
+      <span class="toolbar-separator"></span>
+
+      <!-- 6. Text formatting -->
+      <button onclick="format('bold')" title="Bold"><i class="fas fa-bold"></i></button>
+      <button onclick="format('italic')" title="Italic"><i class="fas fa-italic"></i></button>
+      <button onclick="format('underline')" title="Underline"><i class="fas fa-underline"></i></button>
+      <button onclick="format('strikeThrough')" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
+      <input type="color" onchange="format('foreColor', this.value)" title="Text color">
+      <input type="color" onchange="format('hiliteColor', this.value)" title="Background color">
+      <button onclick="format('removeFormat')" title="Remove formatting"><i class="fas fa-eraser"></i></button>
+      <span class="toolbar-separator"></span>
+
+      <!-- 7. Alignment, indentation, lists -->
+      <button onclick="format('justifyLeft')" title="Align left"><i class="fas fa-align-left"></i></button>
+      <button onclick="format('justifyCenter')" title="Align center"><i class="fas fa-align-center"></i></button>
+      <button onclick="format('justifyRight')" title="Align right"><i class="fas fa-align-right"></i></button>
+      <button onclick="format('justifyFull')" title="Justify"><i class="fas fa-align-justify"></i></button>
+      <button onclick="format('outdent')" title="Decrease indent"><i class="fas fa-outdent"></i></button>
+      <button onclick="format('indent')" title="Increase indent"><i class="fas fa-indent"></i></button>
+      <button onclick="format('insertUnorderedList')" title="Bullet list"><i class="fas fa-list-ul"></i></button>
+      <button onclick="format('insertOrderedList')" title="Numbered list"><i class="fas fa-list-ol"></i></button>
+      <span class="toolbar-separator"></span>
+
+      <!-- 8. Insert -->
+      <button onclick="insertLink()" title="Add link"><i class="fas fa-link"></i></button>
       <input type="file" id="imgInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-      <button onclick="document.getElementById('imgInput').click()" title="Thêm ảnh từ thiết bị"><i class="fas fa-image"></i></button>
-      <button onclick="insertVideo()" title="Chèn video YouTube"><i class="fas fa-video"></i></button>
-      <button onclick="insertTable()" title="Thêm bảng"><i class="fas fa-table"></i></button>
-      <button onclick="format('undo')" title="Hoàn tác"><i class="fas fa-undo"></i></button>
-      <button onclick="format('redo')" title="Làm lại"><i class="fas fa-redo"></i></button>
-      <div class="dropdown">
-        <button title="Nhập tập tin"><i class="fas fa-file-import"></i></button>
-        <div class="dropdown-content">
-          <input type="file" id="fileInput" accept=".txt, .html, .md" style="display: none;" onchange="importFile(event)">
-          <button onclick="document.getElementById('fileInput').click()"><i class="fas fa-file-upload"></i> Chọn file</button>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button title="Xuất tập tin"><i class="fas fa-file-export"></i></button>
-        <div class="dropdown-content">
-          <button onclick="exportFile('txt')"><i class="fas fa-file-alt"></i> Xuất TXT</button>
-          <button onclick="exportFile('html')"><i class="fas fa-code"></i> Xuất HTML</button>
-          <button onclick="exportFile('md')"><i class="fas fa-file-markdown"></i> Xuất Markdown</button>
-          <button onclick="exportFile('pdf')"><i class="fas fa-file-pdf"></i> Xuất PDF</button>
-          <button onclick="exportFile('doc')"><i class="fas fa-file-word"></i> Xuất Word</button>
-        </div>
-      </div>
-      <button class="saved-notes-btn" onclick="openSavedNotesModal()" title="Ghi chú đã lưu"><i class="fas fa-bookmark"></i> Ghi chú đã lưu</button>
-      <button onclick="saveNote()" title="Lưu ghi chú"><i class="fas fa-save"></i> Lưu</button>
-      <!-- Dark mode toggle -->
-      <button class="toggle-darkmode" id="toggleDarkMode" title="Chuyển Dark/Light Mode">
-        <i class="fas fa-moon"></i> <span id="darkModeLabel">Tối</span>
+      <button onclick="document.getElementById('imgInput').click()" title="Add image from device"><i class="fas fa-image"></i></button>
+      <button onclick="insertTable()" title="Add table"><i class="fas fa-table"></i></button>
+      <button onclick="insertVideo()" title="Insert YouTube video"><i class="fas fa-video"></i></button>
+      <button onclick="insertCodeBlock()" title="Insert code block"><i class="fas fa-code"></i></button>
+      <button onclick="insertEmoji()" title="Insert emoji"><i class="fas fa-smile"></i></button>
+      <button onclick="insertHorizontalLine()" title="Insert horizontal line"><i class="fas fa-minus"></i></button>
+      <span class="toolbar-separator"></span>
+
+      <!-- 9. Find & Replace -->
+      <button onclick="openFindReplaceModal()" title="Find & Replace"><i class="fas fa-search"></i></button>
+      <span class="toolbar-separator"></span>
+
+      <!-- 10. Notes -->
+      <button class="saved-notes-btn" onclick="openSavedNotesModal()" title="Saved notes"><i class="fas fa-bookmark"></i> Saved notes</button>
+      <button onclick="saveNote()" title="Save note"><i class="fas fa-save"></i> Save</button>
+      <span class="toolbar-separator"></span>
+
+      <!-- 11. Dark/Light mode -->
+      <button class="toggle-darkmode" id="toggleDarkMode" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon"></i> <span id="darkModeLabel">Dark</span>
       </button>
     </div>
     <div class="editor-outer">
-      <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Khu vực soạn thảo" data-placeholder="✍️ Bắt đầu gõ văn bản..."></div>
+      <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Editor area" data-placeholder="✍️ Start typing text..."></div>
     </div>
-    <div class="wordcount" id="wordcount">0 từ, 0 ký tự</div>
+    <div class="wordcount" id="wordcount">0 words, 0 characters</div>
   </div>
   <script>
     const editor = document.getElementById('editor');
@@ -315,11 +547,11 @@
       updateWordCount();
     }
     function insertLink() {
-      const url = prompt("Nhập URL liên kết:");
+      const url = prompt("Enter URL:");
       if (url) format('createLink', url);
     }
     function insertVideo() {
-      const url = prompt("Dán link YouTube:");
+      const url = prompt("Paste YouTube link:");
       if (url) {
         let embedUrl = url;
         if (/youtube\.com\/watch\?v=/.test(url)) {
@@ -333,8 +565,8 @@
       }
     }
     function insertTable() {
-      let rows = parseInt(prompt("Nhập số hàng:", "2"));
-      let cols = parseInt(prompt("Nhập số cột:", "2"));
+      let rows = parseInt(prompt("Enter number of rows:", "2"));
+      let cols = parseInt(prompt("Enter number of columns:", "2"));
       if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1) return;
       let table = document.createElement('table');
       table.style.borderCollapse = "collapse";
@@ -345,7 +577,7 @@
         let tr = document.createElement('tr');
         for (let c = 0; c < cols; c++) {
           let cell = r === 0 ? document.createElement('th') : document.createElement('td');
-          cell.innerHTML = r === 0 ? `Tiêu đề ${c+1}` : `Dữ liệu`;
+          cell.innerHTML = r === 0 ? `Header ${c+1}` : `Data`;
           cell.style.border = "1px solid #e3e6eb";
           cell.style.padding = "6px 10px";
           tr.appendChild(cell);
@@ -369,9 +601,9 @@
       sel.removeAllRanges();
       sel.addRange(range);
     }
-    // Xuất file
+    // Export file
     function exportFile(type) {
-      let filename = 'vanban_text2';
+      let filename = 'document_text2';
       let content, mimeType;
       switch (type) {
         case 'txt':
@@ -409,11 +641,11 @@
       a.click();
       setTimeout(() => URL.revokeObjectURL(a.href), 500);
     }
-    // Xuất PDF tự động tải về, giữ định dạng
+    // Export PDF with auto download, preserve formatting
     function exportPDF() {
       const opt = {
         margin:       10,
-        filename:     'vanban_text2.pdf',
+        filename:     'document_text2.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2, useCORS: true },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -427,7 +659,7 @@
         document.body.removeChild(tempDiv);
       });
     }
-    // Xuất Word giữ định dạng
+    // Export Word preserve formatting
     function exportDoc() {
       var content = `
       <html>
@@ -449,7 +681,7 @@
       var converted = window.htmlDocx.asBlob(content, {orientation: 'portrait'});
       var a = document.createElement('a');
       a.href = URL.createObjectURL(converted);
-      a.download = "vanban_text2.docx";
+      a.download = "document_text2.docx";
       a.click();
       setTimeout(() => URL.revokeObjectURL(a.href), 500);
     }
@@ -468,7 +700,6 @@
         updateWordCount();
       };
       reader.readAsDataURL(file);
-      event.target.value = "";
     }
     function makeImageDraggableAndResizable(img) {
       img.classList.add('resizable-draggable');
@@ -496,7 +727,7 @@
     function updateWordCount() {
       const text = editor.innerText.replace(/\u200B/g, '').trim();
       const words = text.split(/\s+/).filter(Boolean);
-      document.getElementById('wordcount').innerText = `${words.length} từ, ${text.length} ký tự`;
+      document.getElementById('wordcount').innerText = `${words.length} words, ${text.length} characters`;
     }
     function setupAllImages() {
       editor.querySelectorAll('img').forEach(img => {
@@ -517,23 +748,23 @@
       };
       document.body.appendChild(modal);
     }
-    // GHI CHÚ ĐÃ LƯU
+    // SAVED NOTES
     function saveNote() {
       let html = editor.innerHTML.trim();
       if (!html) {
-        alert("Không có nội dung để lưu!");
+        alert("No content to save!");
         return;
       }
-      let title = prompt("Nhập tiêu đề cho ghi chú:", "Ghi chú " + (new Date().toLocaleString('vi')));
+      let title = prompt("Enter title for note:", "Note " + (new Date().toLocaleString('en')));
       if (!title) return;
       let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
       notes.unshift({
         title: title,
         html: html,
-        datetime: new Date().toLocaleString('vi')
+        datetime: new Date().toLocaleString('en')
       });
       localStorage.setItem("text2_notes", JSON.stringify(notes));
-      alert("Đã lưu ghi chú!");
+      alert("Note saved!");
       updateSavedNotesBtn();
     }
     function openSavedNotesModal() {
@@ -545,10 +776,10 @@
       };
       const modal = document.createElement('div');
       modal.className = 'saved-notes-modal';
-      modal.innerHTML = `<h2>Ghi chú đã lưu</h2>
+      modal.innerHTML = `<h2>Saved notes</h2>
         <div id="savedNotesList"></div>
         <div style="text-align:right; margin-top: 0;">
-          <button onclick="document.body.removeChild(this.closest('.saved-notes-modal-bg'))" class="saved-notes-btn" style="margin:0;"><i class="fas fa-times"></i> Đóng</button>
+          <button onclick="document.body.removeChild(this.closest('.saved-notes-modal-bg'))" class="saved-notes-btn" style="margin:0;"><i class="fas fa-times"></i> Close</button>
         </div>`;
       modalBg.appendChild(modal);
       document.body.appendChild(modalBg);
@@ -557,7 +788,7 @@
         let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
         let html = "";
         if (!notes.length) {
-          html = "<div style='color: #8e99ab; text-align:center;'>Không có ghi chú nào!</div>";
+          html = "<div style='color: #8e99ab; text-align:center;'>No notes found!</div>";
         } else {
           notes.forEach((n, i) => {
             html += `
@@ -566,8 +797,8 @@
                 <div class="saved-note-date">${n.datetime}</div>
                 <div style="margin-bottom:8px;max-height:80px;overflow:auto;border:1px dashed #eee;padding:4px;border-radius:6px;background:rgba(0,0,0,.01);">${n.html.length < 300 ? n.html : n.html.substring(0,300)+'...'}</div>
                 <div class="saved-note-actions">
-                  <button title="Mở" onclick="restoreSavedNote(${i});event.stopPropagation();"><i class="fas fa-upload"></i></button>
-                  <button title="Xóa" onclick="deleteSavedNote(${i});event.stopPropagation();"><i class="fas fa-trash"></i></button>
+                  <button title="Open" onclick="restoreSavedNote(${i});event.stopPropagation();"><i class="fas fa-upload"></i></button>
+                  <button title="Delete" onclick="deleteSavedNote(${i});event.stopPropagation();"><i class="fas fa-trash"></i></button>
                 </div>
               </div>
             `;
@@ -578,7 +809,7 @@
       window.restoreSavedNote = function(idx) {
         let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
         if (notes[idx]) {
-          if (confirm("Bạn muốn mở ghi chú này? Nội dung hiện tại sẽ bị thay thế!")) {
+          if (confirm("Do you want to open this note? Current content will be replaced!")) {
             editor.innerHTML = notes[idx].html;
             updateWordCount();
             document.body.removeChild(modalBg);
@@ -587,7 +818,7 @@
       };
       window.deleteSavedNote = function(idx) {
         let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
-        if (notes[idx] && confirm("Xóa ghi chú này?")) {
+        if (notes[idx] && confirm("Delete this note?")) {
           notes.splice(idx, 1);
           localStorage.setItem("text2_notes", JSON.stringify(notes));
           renderNotes();
@@ -600,7 +831,7 @@
       let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
       let btn = document.querySelector('.saved-notes-btn');
       if (btn) {
-        btn.innerHTML = `<i class="fas fa-bookmark"></i> Ghi chú đã lưu${notes.length ? ` (${notes.length})` : ''}`;
+        btn.innerHTML = `<i class="fas fa-bookmark"></i> Saved notes${notes.length ? ` (${notes.length})` : ''}`;
       }
     }
     // Dark mode
@@ -609,9 +840,9 @@
       localStorage.setItem('text2_theme', theme);
       const btn = document.getElementById('toggleDarkMode');
       if (theme === 'dark') {
-        btn.innerHTML = `<i class="fas fa-sun"></i> <span id="darkModeLabel">Sáng</span>`;
+        btn.innerHTML = `<i class="fas fa-sun"></i> <span id="darkModeLabel">Light</span>`;
       } else {
-        btn.innerHTML = `<i class="fas fa-moon"></i> <span id="darkModeLabel">Tối</span>`;
+        btn.innerHTML = `<i class="fas fa-moon"></i> <span id="darkModeLabel">Dark</span>`;
       }
     }
     function toggleTheme() {
@@ -632,3 +863,4 @@
   </script>
 </body>
 </html>
+
