@@ -1,94 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Text2 - img design</title>
-  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/p/AF1QipMAH2F9BWWLSU14YABENNfSIUDTinGdHOO3wC-S=s1360-w1360-h1020-rw">
-<!-- Google tag (gtag.js) - GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  gtag('config', 'G-6J85STMJ14');
-</script>
+  <!-- Tối ưu SEO với từ khóa text2 IMG -->
+  <title>text2 IMG</title>
+  <meta name="description" content="text2 IMG">
+  <meta name="keywords" content="text2 IMG">
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Open Graph để tăng nhận diện mạng xã hội -->
+  <meta property="og:title" content="text2 IMG">
+  <meta property="og:description" content="text2 IMG">
+  <meta property="og:url" content="https://img.text2.click">
+  <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJ1SE9lYAi9c0zAHLFizf3vj5ZWHiyDnJoENuXpxUcKa9gjl81CgUm2HEKAcmTUyiWpVwSoQRHJoaCIB7rppnCq6UwrrxIUNipbJEgvENtd5-CxwkdiTaJfPup3Hbm2UALXaEtf1gD323hcQMZqsgufZQqipRqcCoHz10ocBuiHLrCFbxkYHBKgztpEVE/s320/20250625_1159_Logo%203D%20%C4%90%E1%BB%99c%20%C4%90%C3%A1o_simple_compose_01jyjq6x3efrzbhwe6gct7rq1n.png">
+
+  <!-- Lệnh chuyển hướng sau 2 giây -->
+  <meta http-equiv="refresh" content="1;url=https:img.text2.click" />
 </head>
-<body class="bg-gray-200 font-sans">
-
-  <!-- Fullscreen Popup Overlay containing both upload interface + editor -->
-  <div id="mainPopup" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-6">
-    <!-- Title -->
-    <h1 class="text-4xl font-bold text-indigo-600 mb-8">🎨 Text2 Edit IMG</h1>
-
-    <!-- File selection -->
-    <div id="uploadSection" class="bg-gray-100 p-6 rounded-xl shadow-lg w-full max-w-xl text-center">
-      <label class="block text-lg font-semibold mb-2">📂 Select PSD / PNG / JPG image file from your computer:</label>
-      <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-gray-800">
-      <button onclick="uploadToPhotopea()" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700">
-        Start Image Design
-      </button>
-    </div>
-
-    <!-- Hidden Photopea iframe initially -->
-<!-- Photopea iframe as popup, now truly fullscreen with branding overlay -->
-<div id="photopeaSection" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-  <div class="relative w-full h-full bg-white overflow-hidden">
-    <!-- Branding bar -->
-    <div class="absolute top-0 left-0 w-full flex items-center justify-between bg-indigo-700 bg-opacity-90 px-8 py-4 z-50">
-      <div class="flex items-center space-x-4">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhnpJq8OUfwyzZft6Loh0DxLpz_ZzJgbE4qWzXy4guSg22-MxxIttVq4Qh-6-J0_BM5aZd2JERhZ3ZgdJuA7Nlh_od-hWd13vsChMuhI1shQAc95sYS7aP252wAPaGRu5k_R64KS1ZjMi-IK8xnzKh5wWf5NqL4J-t7ulGMJzdb9PGR2sCiYUFUZBk5m58/s320/20250426_1052_Logo%20Kh%E1%BB%91i%20H%E1%BB%99p_remix_01jsr3jba1eahspypxy3w94xgc.jpg" alt="Text2 Logo" class="h-12 w-12 rounded-full border-2 border-white shadow-lg">
-        <span class="text-3xl font-extrabold text-white tracking-wide drop-shadow-lg">Text2 - Image Editor</span>
-      </div>
-      <button onclick="closePhotopea()" class="bg-white text-indigo-700 font-bold px-6 py-2 rounded-lg shadow hover:bg-red-500 hover:text-white transition-colors">
-        ✖ Close 
-      </button>
-    </div>
-    <!-- Fullscreen iframe below the branding bar -->
-    <iframe id="photopeaFrame" class="absolute top-20 left-0 w-full h-[calc(100%-5rem)] border-none"></iframe>
-  </div>
-</div>
-
-
-  <script>
-    function uploadToPhotopea() {
-      const fileInput = document.getElementById('fileInput');
-      const file = fileInput.files[0];
-      if (!file) {
-        alert("Please select a file.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dataUrl = e.target.result;
-
-        const config = {
-          files: [dataUrl],
-          script: 'app.echoToOE("Image loaded into Photopea!");'
-        };
-
-        const encoded = encodeURIComponent(JSON.stringify(config));
-        const iframe = document.getElementById('photopeaFrame');
-        iframe.src = "https://www.photopea.com#" + encoded;
-
-        // Switch to fullscreen Photopea iframe
-        document.getElementById('uploadSection').classList.add('hidden');
-        document.getElementById('photopeaSection').classList.remove('hidden');
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function closePhotopea() {
-      const iframe = document.getElementById('photopeaFrame');
-      iframe.src = ""; // reset
-      document.getElementById('uploadSection').classList.remove('hidden');
-      document.getElementById('photopeaSection').classList.add('hidden');
-    }
-  </script>
+<body>
 </body>
 </html>
-
