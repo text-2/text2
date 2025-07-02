@@ -2,23 +2,86 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="robots" content="index, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>img desing text2 </title>
 
-  <!-- Tối ưu SEO với từ khóa text2 IMG -->
-  <title>text2 IMG</title>
-  <meta name="description" content="text2 IMG">
-  <meta name="keywords" content="text2 IMG">
+  <link rel="icon" type="image/png" href="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/493023900_122131185578678030_6545995743166293508_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeG6mOGijSUD8dtHWezMgB2FzpJBCyVf343OkkELJV_fjSCPc1_gqgbd68cyY4R4fXgknE4fok0V0FIZH1Pb7l3I&_nc_ohc=q6BU1NqmeekQ7kNvwHkQoyn&_nc_oc=Adnh4Dm4jGPDRLTsL01c0z7sCEfJmUuvcvGGkYK4njfylp8U8tbjSxeY4DlB3nu-qWo&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=d2UYpwjdRdVpllypszbz1g&oh=00_AfP0MuKX2lKc1zQx-D_rEcO8cdeT05clLhTuuY7RdnM7vQ&oe=686AE04A">
+<!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  <!-- Open Graph để tăng nhận diện mạng xã hội -->
-  <meta property="og:title" content="text2 IMG">
-  <meta property="og:description" content="text2 IMG">
-  <meta property="og:url" content="https://img.text2.click">
-  <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJ1SE9lYAi9c0zAHLFizf3vj5ZWHiyDnJoENuXpxUcKa9gjl81CgUm2HEKAcmTUyiWpVwSoQRHJoaCIB7rppnCq6UwrrxIUNipbJEgvENtd5-CxwkdiTaJfPup3Hbm2UALXaEtf1gD323hcQMZqsgufZQqipRqcCoHz10ocBuiHLrCFbxkYHBKgztpEVE/s320/20250625_1159_Logo%203D%20%C4%90%E1%BB%99c%20%C4%90%C3%A1o_simple_compose_01jyjq6x3efrzbhwe6gct7rq1n.png">
+  gtag('config', 'G-6J85STMJ14');
+</script>
 
-  <!-- Lệnh chuyển hướng sau 2 giây -->
-  <meta http-equiv="refresh" content="1;url=https:img.text2.click" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-200 font-sans">
+
+  <!-- Fullscreen Popup Overlay chứa cả giao diện upload + editor -->
+  <div id="mainPopup" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-6">
+    <!-- Tiêu đề -->
+    <h1 class="text-4xl font-bold text-indigo-600 mb-8">🎨 Text2 Edit IMG</h1>
+
+    <!-- Chọn file -->
+    <div id="uploadSection" class="bg-gray-100 p-6 rounded-xl shadow-lg w-full max-w-xl text-center">
+      <label class="block text-lg font-semibold mb-2">📂 Chọn file ảnh PSD / PNG / JPG từ máy:</label>
+      <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-gray-800">
+      <button onclick="uploadToPhotopea()" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700">
+        Bắt đầu thiết kế hình
+      </button>
+    </div>
+
+    <!-- Photopea iframe ẩn ban đầu -->
+<!-- Photopea iframe dạng popup, che trang nhưng không chiếm full màn -->
+<div id="photopeaSection" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="relative w-full max-w-6xl h-[80vh] bg-white rounded-xl overflow-hidden shadow-2xl">
+    <button onclick="closePhotopea()" class="absolute top-4 right-4 bg-white text-black font-bold px-4 py-2 rounded-lg z-50 hover:bg-red-500 hover:text-white">
+      ✖ Đóng 
+    </button>
+    <iframe id="photopeaFrame" class="w-full h-full border-none rounded-xl"></iframe>
+  </div>
+</div>
+
+
+  <script>
+    function uploadToPhotopea() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Vui lòng chọn một tệp.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+
+        const config = {
+          files: [dataUrl],
+          script: 'app.echoToOE("Đã tải ảnh vào Photopea!");'
+        };
+
+        const encoded = encodeURIComponent(JSON.stringify(config));
+        const iframe = document.getElementById('photopeaFrame');
+        iframe.src = "https://www.photopea.com#" + encoded;
+
+        // Chuyển sang iframe Photopea fullscreen
+        document.getElementById('uploadSection').classList.add('hidden');
+        document.getElementById('photopeaSection').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function closePhotopea() {
+      const iframe = document.getElementById('photopeaFrame');
+      iframe.src = ""; // reset
+      document.getElementById('uploadSection').classList.remove('hidden');
+      document.getElementById('photopeaSection').classList.add('hidden');
+    }
+  </script>
 </body>
 </html>
